@@ -14,7 +14,7 @@
     <div><button id = "pause" type="button">click</button></div>
     <script>
         $(document).ready(function(){
-                $("#player").on(
+            $("#player").on(
                 "timeupdate", 
                 function(event){
                     onTrackedVideoFrame(this.currentTime, this.duration);
@@ -32,16 +32,19 @@
             $("#field").on("click",function(){
                 let player = $("#player")[0];
                 if(player.paused){
-                    setTimeout('player.play()',500);
+                    setTimeout('player.play()', 500);
                 }
                 else{
                     player.pause()
                 }
+                
+                mouseMove(event)
+
                 function mouseMove(ev)
                 {
                     Ev= ev || window.event;
                     var mousePos = mouseCoords(ev);
-                   $("#xxx").text (((mousePos.x-680.5)/9).toFixed(1));
+                    $("#xxx").text (((mousePos.x-680.5)/9).toFixed(1));
                     $("#yyy").text (((mousePos.y-9.5)/6).toFixed(1));
                 }
                 function mouseCoords(ev)
@@ -54,7 +57,6 @@
                         y:ev.clientY + document.body.scrollTop - document.body.clientTop
                     };
                 }
-                document.onclick = mouseMove;
             })
         });
 
@@ -65,7 +67,7 @@
     </script>
 <div id="current">0:00</div>
 <div id="duration">0:00</div>
-<div id ="xxx">1</div>
+<div id="xxx">1</div>
 <div id="yyy">1</div>
 
 </body>
