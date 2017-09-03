@@ -1,0 +1,24 @@
+#json_preview{
+    height: 100%;
+}
+
+.video_img_box{
+    overflow:hidden;
+    margin: 0 auto;
+    display: table;
+}
+
+.video_box, .img_box{
+    margin-bottom: -100000px;
+    padding-bottom: 100000px;
+    display: table-cell;
+    vertical-align:middle;
+}
+
+.video_box{
+    float: left;
+}
+
+.img_box{
+    float: right;
+}

@@ -1,74 +1,115 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-<head> 
-    <meta charset="utf-8"> 
-    <title>Data Collect</title> 
-    <script src="./LIB/jquery.min.js"></script>
-</head>
-
-
+    <head>
+        <title>足球数据采集系统 / Soccer Data Collector</title>
+        <meta charset="utf-8"/>
+        <script type="text/javascript" src="./LIB/jquery.min.js"></script>
+        <script type="text/javascript" src="./LIB/d3.js"></script>
+        <link href="./CSS/bootstrap.css" rel="stylesheet" />
+        <script type="text/javascript" src="./LIB/bootstrap.min.js"></script>
+        <link href="./CSS/index.css" rel="stylesheet" />
+    </head>
 
 <body>
-<video id = "player" src = './Matches/Match0/0001.mp4' controls="controls"  width='640' height='480'></video>
-<img src="./SRC/field.jpg" id="field" >
-<div><button id = "pause" type="button">click</button></div>
-<script>
-    $(document).ready(function(){
-        $("#player").on(
-            "timeupdate",
-            function(event){
-                onTrackedVideoFrame(this.currentTime, this.duration);
-            });
+    <nav class="navbar navbar-default" style="margin-bottom:10px"></nav>
+    <nav class="navbar navbar-default navbar-fixed-top" style="margin-bottom:0">
+        <div class="container-fluid">
+            <div class="row box">
+                <div id="navigationHead" class="col-md-3 navbar-header">
+                    <a class="navbar-brand" href="#">
+                        <img alt="Brand" src="SRC/img/soccer.ico">
+                    </a>
+                    <a class="navbar-brand" href="#">足球数据采集系统</a>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-        $("#pause").on("click", function(){
-            let player = $("#player")[0];
-            if(player.paused){
-                player.play()
-            }
-            else{
-                player.pause()
-            }
-        })
-        $("#field").on("click",function(){
-            let player = $("#player")[0];
-            if(player.paused){
-                setTimeout('player.play()', 500);
-            }
-            else{
-                player.pause()
-            }
+    <div class="container-fluid">
+        <div class="row box operating_preview_space">
+            <div class="col-md-9 panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                第一部分：比赛信息
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                                第二部分：球员信息
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse">
+                        <div class="panel-body">
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                                第三部分：细节数据
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="row box video_img_box">
+                                <div class="col-md-6 video_box" id="video">
+                                    <video id="videoplayer" src="./Matches/Match0/0001.mp4" controls="controls" width='100%'></video>
+                                </div>
+                                <div class="col-md-6 img_box" id="virtual_field">
+                                    <img src="SRC/img/field.jpg" id="field" style="width:100%;"/>
+                                </div>
+                            </div>
+                            <div><button id = "pause" type="button">click</button></div>
+                            <div id="current">0:00</div>
+                            <div id="duration">0:00</div>
+                            <div id="xxx">1</div>
+                            <div id="yyy">1</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3" id="json_preview">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">生成数据预览</h3>
+                    </div>
+                    <div id="preview_text" class="panel-body">
 
-            mouseMove(event)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            function mouseMove(ev)
-            {
-                Ev= ev || window.event;
-                var mousePos = mouseCoords(ev);
-                $("#xxx").text (((mousePos.x-680.5)/9).toFixed(1));
-                $("#yyy").text (((mousePos.y-9.5)/6).toFixed(1));
-            }
-            function mouseCoords(ev)
-            {
-                if(ev.pageX || ev.pageY){
-                    return {x:ev.pageX, y:ev.pageY};
-                }
-                return{
-                    x:ev.clientX + document.body.scrollLeft - document.body.clientLeft,
-                    y:ev.clientY + document.body.scrollTop - document.body.clientTop
-                };
-            }
-        })
-    });
-
-    function onTrackedVideoFrame(currentTime, duration){
-        $("#current").text(currentTime);
-        $("#duration").text(duration);
-    }
-</script>
-<div id="current">0:00</div>
-<div id="duration">0:00</div>
-<div id="xxx">1</div>
-<div id="yyy">1</div>
-
+    <div class="btn-toolbar" role="toolbar">
+        <div class="btn-group" role="group">
+            <button id="btn_determine" type="button" class="btn btn-default">确认提交</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button id="btn_clear" type="button" class="btn btn-default">清除所有</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button id="btn_exit" type="button" class="btn btn-default">退出系统</button>
+        </div>
+    </div>
+    <script type="text/javascript" src="JS/p1_matchinfo.js"></script>
+    <script type="text/javascript" src="JS/p2_playersinfo.js"></script>
+    <script type="text/javascript" src="JS/p3_detailsinfo.js"></script>
+    <script type="text/javascript" src="JS/p3_detailsinfo_FieldClick.js"></script>
+    <script type="text/javascript" src="JS/p4_preview.js"></script>
+    <script type="text/javascript" src="JS/main.js"></script>
 </body>
 </html>
