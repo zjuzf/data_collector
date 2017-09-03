@@ -1,0 +1,2 @@
+Q_Shot_Miss 1000 ÉäÆ«
+Q_Shot_Success 1001 ÉäÖÐ

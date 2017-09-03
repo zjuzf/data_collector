@@ -1,10 +1,19 @@
-{
-    "teams":{
-    },
-    "players":{
-    },
-    "events":{
-    },
-    "qualifiers":{
-    }
+﻿{
+"teams":[
+{"name":"山东鲁能" , "tid":"10000"},
+{"name":"广州恒大" , "tid":"10001"}
+],
+"players":[
+{"name":"赵大" , "tid":"10001" , "pid":"1000000" , "jersey":"0" , "position":"后卫"},
+{"name":"钱二" , "tid":"10001" , "pid":"1000001" , "jersey":"1" , "position":"前锋"},
+{"name":"郑六" , "tid":"10001" , "pid":"1000002" , "jersey":"2" , "position":"守门员"}
+],
+"events":[
+{"name":"传球" , "eid":"1000" , "code":"E_PASS"},
+{"name":"带球" , "eid":"1001" , "code":"E_RUN"}
+],
+"qualifiers":[
+{"name":"射偏" , "qid":"1000" , "code":"Q_Shot_Miss"},
+{"name":"射中" , "qid":"1001" , "code":"Q_Shot_Success"}
+]
 }
