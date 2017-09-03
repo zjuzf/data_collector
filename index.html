@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head> 
+<meta charset="utf-8"> 
+<title>Data Collect</title> 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+</head>
+
+
+
+<body>
+    <video id = "player" src = '0001.mp4' controls="controls"  width='960' height='540'></video>
+    <div><button id = "pause" type="button">click</button></div>
+    <script>
+        $(document).ready(function(){
+                $("#player").on(
+                "timeupdate", 
+                function(event){
+                    onTrackedVideoFrame(this.currentTime, this.duration);
+                });
+            
+            $("#pause").on("click", function(){
+                let player = $("#player")[0];
+                if(player.paused){
+                    player.play()
+                }
+                else{
+                    player.pause()
+                }
+            })
+        });
+
+        function onTrackedVideoFrame(currentTime, duration){
+            $("#current").text(currentTime);
+            $("#duration").text(duration);
+        }
+
+    </script>
+    <div id="current">0:00</div>
+    <div id="duration">0:00</div>
+</body>
+</html>
