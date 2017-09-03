@@ -9,7 +9,8 @@
 
 
 <body>
-    <video id = "player" src = '0001.mp4' controls="controls"  width='960' height='540'></video>
+    <video id = "player" src = '0001.mp4' controls="controls"  width='640' height='480'></video>
+    <img src="field.jpg" id="field" >
     <div><button id = "pause" type="button">click</button></div>
     <script>
         $(document).ready(function(){
@@ -28,15 +29,44 @@
                     player.pause()
                 }
             })
+            $("#field").on("click",function(){
+                let player = $("#player")[0];
+                if(player.paused){
+                    setTimeout('player.play()',500);
+                }
+                else{
+                    player.pause()
+                }
+                function mouseMove(ev)
+                {
+                    Ev= ev || window.event;
+                    var mousePos = mouseCoords(ev);
+                   $("#xxx").text (((mousePos.x-680.5)/9).toFixed(1));
+                    $("#yyy").text (((mousePos.y-9.5)/6).toFixed(1));
+                }
+                function mouseCoords(ev)
+                {
+                    if(ev.pageX || ev.pageY){
+                        return {x:ev.pageX, y:ev.pageY};
+                    }
+                    return{
+                        x:ev.clientX + document.body.scrollLeft - document.body.clientLeft,
+                        y:ev.clientY + document.body.scrollTop - document.body.clientTop
+                    };
+                }
+                document.onclick = mouseMove;
+            })
         });
 
         function onTrackedVideoFrame(currentTime, duration){
             $("#current").text(currentTime);
             $("#duration").text(duration);
         }
-
     </script>
-    <div id="current">0:00</div>
-    <div id="duration">0:00</div>
+<div id="current">0:00</div>
+<div id="duration">0:00</div>
+<div id ="xxx">1</div>
+<div id="yyy">1</div>
+
 </body>
 </html>
