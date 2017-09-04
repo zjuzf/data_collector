@@ -1,11 +1,12 @@
 d3.queue()
     .defer(d3.json, "./SRC/data/data.json")
+    .defer(d3.json, "./SRC/data/const.json")
     .await(main);
 
-function main(error, jsondata)
+function main(error, jsondata, constdata)
 {
     if (error) throw error;
-    console.log(jsondata);
+    console.log(jsondata, constdata);
     var data = {
         matchinfo:{
             date:{
