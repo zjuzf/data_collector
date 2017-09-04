@@ -6,7 +6,7 @@ $(document).ready(function(){
         });
 
     $("#pause").on("click", function(){
-        let player = $("#player")[0];
+        let player = $("#videoplayer")[0];
         if(player.paused){
             player.play()
         }
@@ -15,9 +15,9 @@ $(document).ready(function(){
         }
     })
     $("#field").on("click",function(){
-        let player = $("#player")[0];
+        let player = $("#videoplayer")[0];
         if(player.paused){
-            setTimeout('player.play()', 500);
+            setTimeout(player.play(), 500);
         }
         else{
             player.pause()
@@ -29,8 +29,8 @@ $(document).ready(function(){
         {
             Ev= ev || window.event;
             var mousePos = mouseCoords(ev);
-            $("#xxx").text (((mousePos.x-680.5)/9).toFixed(1));
-            $("#yyy").text (((mousePos.y-9.5)/6).toFixed(1));
+            $("#xxx").text (((mousePos.x-816)/6.8).toFixed(1));
+            $("#yyy").text (((mousePos.y-204.5)/4.5).toFixed(1));
         }
         function mouseCoords(ev)
         {
