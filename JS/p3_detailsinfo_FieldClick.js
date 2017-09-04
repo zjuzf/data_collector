@@ -1,5 +1,4 @@
 $(document).ready(function(){
-    let detailNum = 0
     updateTime()
     updateDropdown("dropdown-player")
     updateDropdown("dropdown-action")
@@ -17,16 +16,15 @@ $(document).ready(function(){
     })
 
     $("#field").on("click",function(){
-        detailNum=0
         let player = $("#videoplayer")[0];
         player.pause();
         let coor = mouseMove(event);
-        popModal(coor, detailNum)
+        popModal(coor)
     })
 
 });
 
-function popModal(coor, detailNum)
+function popModal(coor)
 {
     $('#collector').modal({backdrop: 'static', keyboard: false})
 
