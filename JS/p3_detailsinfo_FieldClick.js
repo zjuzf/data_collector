@@ -1,5 +1,7 @@
 $(document).ready(function(){
     updateTime()
+    updateDropdown("dropdown-player")
+    updateDropdown("dropdown-action")
 
     $("#pause").on("click", function(){
         let player = $("#videoplayer")[0];
@@ -15,14 +17,29 @@ $(document).ready(function(){
         let player = $("#videoplayer")[0];
         player.pause();
         let coor = mouseMove(event);
-        popModal()
+        popModal(coor)
     })
 
 });
 
-function popModal()
+function popModal(coor)
 {
     $('#collector').modal({backdrop: 'static', keyboard: false})
+
+    let time = dealTime()
+    $('#input-min').val(time.min)
+    $('#input-sec').val(time.sec)
+
+    $('#input-x').val(coor.x)
+    $('#input-y').val(coor.y)
+
+}
+
+function dealTime() {
+    let time = $('#current').text()
+    let min = (time / 60).toFixed(0)
+    let sec = (time % 60).toFixed(1)
+    return {min, sec}
 }
 
 function updateTime()
@@ -34,13 +51,23 @@ function updateTime()
         });
 }
 
+function updateDropdown(id) {
+    let newName = `#${id} ul li`
+    $(newName).on("click", function () {
+        let val = $(this).text()
+        $(this).parent().prev().text(`${val} `).append(`<span class="caret"></span>`)
+        console.log($(this).text())
+    })
+}
+
 function mouseMove(ev)
 {
     Ev= ev || window.event;
-    var mousePos = mouseCoords(ev);
-    $("#xxx").text (((mousePos.x-816)/6.8).toFixed(1));
-    $("#yyy").text (((mousePos.y-204.5)/4.5).toFixed(1));
-    return mousePos
+    let mousePos = mouseCoords(ev);
+    let fieldPos = {x:((mousePos.x-816)/6.8).toFixed(1), y:((mousePos.y-204.5)/4.5).toFixed(1)}
+    $("#xxx").text(fieldPos.x);
+    $("#yyy").text(fieldPos.y);
+    return fieldPos
 }
 function mouseCoords(ev)
 {
@@ -54,6 +81,6 @@ function mouseCoords(ev)
 }
 
 function onTrackedVideoFrame(currentTime, duration){
-    $("#current").text(currentTime);
-    $("#duration").text(duration);
+    $("#current").text(currentTime.toFixed(1));
+    $("#duration").text(duration.toFixed(1));
 }

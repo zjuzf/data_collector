@@ -73,8 +73,8 @@
                                 </div>
                             </div>
                             <div><button id = "pause" type="button">click</button></div>
-                            <div id="current">0:00</div>
-                            <div id="duration">0:00</div>
+                            <div id="current">0.0</div>
+                            <div id="duration">0.0</div>
                             <div id="xxx">1</div>
                             <div id="yyy">1</div>
                         </div>
@@ -114,7 +114,49 @@
                     <h4 class="modal-title">Modal title</h4>
                 </div>
                 <div class="modal-body">
-
+                    <div class="input-group">
+                        <span class="input-group-addon" id="addon-time">时间</span>
+                        <input type="text" id = "input-min" class="form-control" placeholder="分" aria-describedby="addon-time">
+                        <span class="input-group-addon" id="time-min">分</span>
+                        <input type="text" id = "input-sec" class="form-control" placeholder="秒" aria-describedby="addon-time">
+                        <span class="input-group-addon" id="time-sec">秒</span>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-coor">坐标</span>
+                        <input type="text" id = "input-x" class="form-control" placeholder="x" aria-describedby="addon-time">
+                        <span class="input-group-addon" id="coor-x">x</span>
+                        <input type="text" id = "input-y" class="form-control" placeholder="y" aria-describedby="addon-time">
+                        <span class="input-group-addon" id="coor-y">y</span>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-player">球员</span>
+                        <div class="dropdown" id = "dropdown-player">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu-player" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                球员
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu-player">
+                                <li><a href="#">甲</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">乙</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-action">动作</span>
+                        <div class="dropdown" id = "dropdown-action">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu-action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                动作
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu-action">
+                                <li><a href="#">甲</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon5">动作细节</span>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
