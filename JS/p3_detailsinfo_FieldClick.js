@@ -1,7 +1,10 @@
 $(document).ready(function(){
+    let detailNum = 0
     updateTime()
     updateDropdown("dropdown-player")
     updateDropdown("dropdown-action")
+    updateDropdown("dropdown-detail")
+    addAction()
 
     $("#pause").on("click", function(){
         let player = $("#videoplayer")[0];
@@ -14,15 +17,16 @@ $(document).ready(function(){
     })
 
     $("#field").on("click",function(){
+        detailNum=0
         let player = $("#videoplayer")[0];
         player.pause();
         let coor = mouseMove(event);
-        popModal(coor)
+        popModal(coor, detailNum)
     })
 
 });
 
-function popModal(coor)
+function popModal(coor, detailNum)
 {
     $('#collector').modal({backdrop: 'static', keyboard: false})
 
@@ -56,7 +60,18 @@ function updateDropdown(id) {
     $(newName).on("click", function () {
         let val = $(this).text()
         $(this).parent().prev().text(`${val} `).append(`<span class="caret"></span>`)
-        console.log($(this).text())
+    })
+}
+
+function addAction() {
+    $('#addAction').on("click", function () {
+        $('#detailList').append(`<li></li>`)
+        $('#detailList li').addClass("list-group-item").text(function () {
+            return $('#dropdown-detail ul li').text()
+        }).append(`<button type="button" class="close closeListGroup" aria-label="Close"><span aria-hidden="true">&times;</span></button>`)
+        $('.closeListGroup').on("click", function () {
+            $(this).parent().remove()
+        })
     })
 }
 

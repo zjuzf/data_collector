@@ -155,7 +155,20 @@
                         </div>
                     </div>
                     <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon5">动作细节</span>
+                        <span class="input-group-addon" id="basic-detail">动作细节</span>
+                        <div class="dropdown" id = "dropdown-detail">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu-detail" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                动作
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu-detail">
+                                <li><a href="#">甲</a></li>
+                            </ul>
+                            <button type="button" class="btn btn-primary" id="addAction">Add</button>
+                        </div>
+                    </div>
+                    <div id="detailGroup">
+                        <ul class="list-group" id="detailList"></ul>
                     </div>
                 </div>
                 <div class="modal-footer">
