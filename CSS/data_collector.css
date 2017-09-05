@@ -2,6 +2,10 @@
     height: 100%;
 }
 
+.toolbar {
+    margin-top: 10px;
+}
+
 .video_img_box{
     overflow:hidden;
     margin: 0 auto;
@@ -23,5 +27,39 @@
     float: right;
 }
 
-.p1_matchinfo{
+.preview_text {
+    padding: 10px 10px 10px 10px;
+    max-height: 800px;
+    overflow: scroll;
+}
+
+.team_players {
+}
+
+.modal-dialog{
+    left: 5%
+}
+
+.deleteDetail{
+    right: 10%
+}
+
+#input-qvalue{
+    width:50%
+}
+
+#phase-group{
+    width:40%
+}
+
+#phase-group .badge{
+    margin-right:2%
+}
+
+.glyphicon-plus{
+    float:right
+}
+
+.phaseText{
+    display:inline
 }

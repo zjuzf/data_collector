@@ -1,36 +1,42 @@
 d3.queue()
     .defer(d3.json, "./SRC/data/data.json")
+    .defer(d3.json, "./SRC/data/const.json")
     .await(main);
 
-function main(error, jsondata)
+var p1, p2, p3, p4, data;
+
+function main(error, jsondata, constData)
 {
     if (error) throw error;
-    console.log(jsondata);
-    var data = {
+    console.log(jsondata, constData);
+    data = {
         matchinfo:{
             date:{
-                year:0,
-                month:0,
-                day:0
+                year:"",
+                month:"",
+                day:""
             },
             time:{
-                min:0,
-                sec:0
+                min:"",
+                sec:""
             },
-            team0:-1,
-            team1:-1,
-            score0:0,
-            score1:0,
+            team0:"",
+            team1:"",
+            score0:"",
+            score1:"",
             video:{
                 path:"",
                 name:""
             }
         },
-        players: new Array(),
+        players:{
+            team0: new Array(),
+            team1: new Array()
+        },
         sequences: new Array()
     };
-    var p1 = new matchinfo(jsondata, data.matchinfo);
-    var p2 = new playersinfo();
-    var p3 = new detailsinfo();
-    var p4 = new preview();
+    p1 = new matchinfo(jsondata);
+    p2 = new playersinfo(jsondata);
+    p3 = new detailsinfo(constData, data);
+    p4 = new preview();
 }
