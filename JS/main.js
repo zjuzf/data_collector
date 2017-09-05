@@ -3,10 +3,10 @@ d3.queue()
     .defer(d3.json, "./SRC/data/const.json")
     .await(main);
 
-function main(error, jsondata, constdata)
+function main(error, jsondata, constData)
 {
     if (error) throw error;
-    console.log(jsondata, constdata);
+    console.log(jsondata, constData);
     var data = {
         matchinfo:{
             date:{
@@ -32,6 +32,6 @@ function main(error, jsondata, constdata)
     };
     var p1 = new matchinfo(jsondata, data.matchinfo);
     var p2 = new playersinfo();
-    var p3 = new detailsinfo();
+    var p3 = new detailsinfo(constData, data);
     var p4 = new preview();
 }

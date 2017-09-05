@@ -1,9 +1,11 @@
-detailsinfo = function()
+detailsinfo = function(constData, data)
 {
     this.div = d3.select("#collapseThree").select("div")
-
+    this.constData = constData
+    this.data = data
     $(document).ready(()=>{
         this.updateTime()
+        this.addDropDown()
         this.updateDropdown("dropdown-player")
         this.updateDropdown("dropdown-action")
         this.updateDropdown("dropdown-detail")
@@ -46,6 +48,8 @@ detailsinfo.prototype.popModal = function(coor)
     $('#input-x').val(coor.x)
     $('#input-y').val(coor.y)
 
+    $('#detailList').children().remove()
+
 }
 
 detailsinfo.prototype.dealTime = function () {
@@ -68,20 +72,30 @@ detailsinfo.prototype.updateDropdown = function (id) {
     let newName = `#${id} ul li`
     $(newName).on("click", function () {
         let val = $(this).text()
-        $(this).parent().prev().text(`${val} `).append(`<span class="caret"></span>`)
+        $(`#${id} button.dropdown-toggle`).text(`${val} `).append(`<span class="caret"></span>`)
     })
 }
 
 detailsinfo.prototype.detailAction = function () {
     $('#addAction').on("click", function () {
         $('#detailList').append(`<li></li>`)
-        $('#detailList li').addClass("list-group-item").text(function () {
-            return $('#dropdown-detail ul li').text()
+        $('#detailList li:last').addClass("list-group-item").text(function () {
+            return $(`#dropdown-detail button.dropdown-toggle`).text()
         }).append(`<button type="button" class="close closeListGroup" aria-label="Close"><span aria-hidden="true">&times;</span></button>`)
         $('.closeListGroup').on("click", function () {
             $(this).parent().remove()
         })
     })
+}
+
+detailsinfo.prototype.addDropDown = function()
+{
+    for(const eid of this.constData.eid){
+        $('#dropdown-action ul').append(`<li><a href="#">${eid}</a></li>`)
+    }
+    for(const qid of this.constData.qid){
+        $('#dropdown-detail ul').append(`<li><a href="#">${qid}</a></li>`)    
+    }
 }
 
 function mouseMove(ev)
