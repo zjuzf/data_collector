@@ -3,6 +3,7 @@ detailsinfo = function(constData, data)
     this.div = d3.select("#collapseThree").select("div")
     this.constData = constData
     this.data = data
+    this.phaseGroup = new phaseGroup()
     $(document).ready(()=>{
         this.updateTime()
         this.addDropDown()
@@ -15,8 +16,6 @@ detailsinfo = function(constData, data)
     })
 
 };
-
-
 
 detailsinfo.prototype.clickEvent = function()
 {
@@ -123,6 +122,62 @@ detailsinfo.prototype.disableButton = function()
     else
         $('#save-button').prop('disabled', false)
 }
+
+phaseGroup = function() {
+    this.phaseItem = `<a href="#" class="list-group-item"></a>`
+    this.closeButton = `<button type="button" class="close closeListGroup" aria-label="Close"><span aria-hidden="true">×</span></button>`
+    this.spanBadge = `<span class="badge">0</span>`
+    this.phaseNum = 0
+    this.phaseSelectedId = ""
+    this.sequences = new Array()
+    this.createPhase()
+}
+
+phaseGroup.prototype.createPhase = function() {
+    let that = this
+    $('#phase-group a:first').on("click", ()=>{
+        this.phaseNum += 1
+        $('#phase-group a:first').after(this.phaseItem)
+        $('#phase-group a').removeClass('active')
+        $('#phase-group a:nth-child(2)').addClass("phase-list").addClass("active").attr("id", `phase${this.phaseNum}`)
+        .on("click", function(){
+            $('#phase-group a').removeClass('active')
+            $(this).addClass('active')
+            that.phaseSelected = $(this).attr("id")
+        })
+        .append(`<div class="phaseText">阶段${this.phaseNum}</div>`).append(this.closeButton).append(this.spanBadge)
+
+        this.sequences.push({'actions':new Array(), 'time':{'start':'', 'end':''}})
+
+        $('#phase-group a:nth-child(2) .closeListGroup').on("click", function(){
+            let id = parseInt(that.getLastChar($(this).parent().attr("id")))
+            that.sequences.splice(id, 1)
+
+            $(this).parent().remove()
+
+            let idLength = $('#phase-group').children(".phase-list").length
+            $('#phase-group').children(".phase-list").each(function(index, element){
+                let newId = idLength - index - 1
+                $(element).attr("id", `phase${newId}`)
+                $(element).children(".phaseText").text(`阶段${newId}`)
+                // let newHtml = $(element).text()
+                // newHtml = newHtml.replace(/阶段\d+/, `阶段${newId}`)
+                // $(element).text(newHtml)
+                that.phaseNum = idLength - 1
+            })
+            console.log(that.sequences)
+        })
+    })
+}
+
+phaseGroup.prototype.getLastChar = function(str){
+    return str.charAt(str.length - 1)
+}
+
+phaseGroup.prototype.updatePhaseId = function(){
+
+}
+
 
 function mouseMove(ev)
 {
