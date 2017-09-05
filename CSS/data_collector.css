@@ -34,5 +34,33 @@
 }
 
 .team_players {
+}
 
+
+.modal-dialog{
+    left: 5%
+}
+
+.deleteDetail{
+    right: 10%
+}
+
+#input-qvalue{
+    width:50%
+}
+
+#phase-group{
+    width:40%
+}
+
+#phase-group .badge{
+    margin-right:2%
+}
+
+.glyphicon-plus{
+    float:right
+}
+
+.phaseText{
+    display:inline
 }
