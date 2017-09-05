@@ -23,5 +23,8 @@
     float: right;
 }
 
-.p1_matchinfo{
+.preview_text {
+    padding: 10px 10px 10px 10px;
+    max-height: 800px;
+    overflow: scroll;
 }
