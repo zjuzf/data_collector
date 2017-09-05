@@ -9,7 +9,7 @@ function main(error, jsondata, constData)
 {
     if (error) throw error;
     console.log(jsondata, constData);
-    var data = {
+    data = {
         matchinfo:{
             date:{
                 year:"",
