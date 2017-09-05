@@ -11,6 +11,7 @@ detailsinfo = function(constData, data)
         this.updateDropdown("dropdown-detail")
         this.detailAction()
         this.clickEvent()
+        this.disableButton()
     })
 
 };
@@ -35,6 +36,8 @@ detailsinfo.prototype.clickEvent = function()
         let coor = mouseMove(event)
         this.popModal(coor)
     })
+
+    this.disableButton()
 }
 
 detailsinfo.prototype.popModal = function(coor)
@@ -69,22 +72,29 @@ detailsinfo.prototype.updateTime = function ()
 }
 
 detailsinfo.prototype.updateDropdown = function (id) {
+    let that = this
     let newName = `#${id} ul li`
     $(newName).on("click", function () {
         let val = $(this).text()
         $(`#${id} button.dropdown-toggle`).text(`${val} `).append(`<span class="caret"></span>`)
+        that.disableButton()
     })
 }
 
 detailsinfo.prototype.detailAction = function () {
     $('#addAction').on("click", function () {
-        $('#detailList').append(`<li></li>`)
-        $('#detailList li:last').addClass("list-group-item").text(function () {
-            return $(`#dropdown-detail button.dropdown-toggle`).text()
-        }).append(`<button type="button" class="close closeListGroup" aria-label="Close"><span aria-hidden="true">&times;</span></button>`)
-        $('.closeListGroup').on("click", function () {
-            $(this).parent().remove()
-        })
+        if($('#addAction').hasClass('.disabled') === false){
+            $('#detailList').append(`<li></li>`)
+            $('#detailList li:last').addClass("list-group-item").text(function () {
+                let qidStr = $(`#dropdown-detail button.dropdown-toggle`).text()
+                let qidValue = $('#input-qvalue').val()
+                return `${qidStr} ${qidValue}`
+            }).append(`<button type="button" class="close closeListGroup" aria-label="Close"><span aria-hidden="true">&times;</span></button>`)
+        
+            $('.closeListGroup').on("click", function () {
+                $(this).parent().remove()
+            })
+        }
     })
 }
 
@@ -96,6 +106,22 @@ detailsinfo.prototype.addDropDown = function()
     for(const qid of this.constData.qid){
         $('#dropdown-detail ul').append(`<li><a href="#">${qid}</a></li>`)    
     }
+}
+
+detailsinfo.prototype.disableButton = function()
+{
+    const playerVal = $.trim($('#dropdownMenu-player').text())
+    const actionVal = $.trim($('#dropdownMenu-action').text())
+    const detailVal = $.trim($('#dropdownMenu-detail').text())
+    if(detailVal === `动作细节`)
+        $('#addAction').prop('disabled', true)
+    else
+        $('#addAction').prop('disabled', false)
+
+    if(playerVal === `球员` || actionVal === `动作`)
+        $('#save-button').prop('disabled', true)
+    else
+        $('#save-button').prop('disabled', false)
 }
 
 function mouseMove(ev)

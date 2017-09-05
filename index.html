@@ -155,16 +155,18 @@
                         </div>
                     </div>
                     <div class="input-group">
-                        <span class="input-group-addon" id="basic-detail">动作细节</span>
-                        <div class="dropdown" id = "dropdown-detail">
-                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu-detail" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                动作
+                        <span class="input-group-addon" id="basic-detail">动作细节</span>    
+                        <div class="dropdown input-group-btn" id = "dropdown-detail">
+                           <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu-detail" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                动作细节
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu-detail">
                             </ul>
-                            <button type="button" class="btn btn-primary" id="addAction">Add</button>
                         </div>
+                        <span class="input-group-addon" id="basic-qvalue">数值</span>
+                        <input type="text" id = "input-qvalue" class="form-control" placeholder="值" aria-describedby="basic-qvalue">
+                        <button type="button" class="btn btn-primary" id="addAction">Add</button>
                     </div>
                     <div id="detailGroup">
                         <ul class="list-group" id="detailList"></ul>
@@ -172,7 +174,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-primary" id = "save-button">Save</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
