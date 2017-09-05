@@ -18,7 +18,7 @@ playersinfo.prototype.createElements = function() {
     this.div.innerHTML =
         "<div class='container-fluid'>" +
         "   <div class='row box'>" +
-        "       <div class='col-md-6'>" +
+        "       <div class='col-md-6x'>" +
         "           <div class=\"panel panel-default\">\n" +
         "                <div class=\"panel-heading\">\n" +
         "                    <h3 id=\"team0_title\" class=\"panel-title\">主队</h3>\n" +

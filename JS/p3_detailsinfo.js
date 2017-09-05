@@ -173,8 +173,8 @@ phaseGroup.prototype.updatePhaseId = function(){
         let newId = idLength - index
         $(element).attr("id", `phase${newId}`)
         $(element).children(".phaseText").text(`阶段${newId}`)
-        that.phaseNum = idLength
     })
+    this.phaseNum--
 }
 
 
