@@ -118,7 +118,6 @@ matchinfo.prototype.createElements = function() {
             .append("li")
             .attr("onclick", "clickTeam(0,"+i+")")
             .append("a")
-            .attr("href","#")
             .text(this.teamList[i].tid + "　" +this.teamList[i].name);
     this.team0.append("span")
         .attr("class", "input-group-addon")
@@ -162,7 +161,6 @@ matchinfo.prototype.createElements = function() {
             .append("li")
             .attr("onclick", "clickTeam(1,"+i+")")
             .append("a")
-            .attr("href","#")
             .text(this.teamList[i].tid + "　" +this.teamList[i].name);
     this.team1.append("span")
         .attr("class", "input-group-addon")

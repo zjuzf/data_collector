@@ -100,10 +100,10 @@ detailsinfo.prototype.detailAction = function () {
 detailsinfo.prototype.addDropDown = function()
 {
     for(const eid of this.constData.eid){
-        $('#dropdown-action ul').append(`<li><a href="#">${eid}</a></li>`)
+        $('#dropdown-action ul').append(`<li><a>${eid}</a></li>`)
     }
     for(const qid of this.constData.qid){
-        $('#dropdown-detail ul').append(`<li><a href="#">${qid}</a></li>`)    
+        $('#dropdown-detail ul').append(`<li><a>${qid}</a></li>`)
     }
 }
 
@@ -124,7 +124,7 @@ detailsinfo.prototype.disableButton = function()
 }
 
 phaseGroup = function() {
-    this.phaseItem = `<a href="#" class="list-group-item"></a>`
+    this.phaseItem = `<a class="list-group-item"></a>`
     this.closeButton = `<button type="button" class="close closeListGroup" aria-label="Close"><span aria-hidden="true">×</span></button>`
     this.spanBadge = `<span class="badge">0</span>`
     this.phaseNum = 0
