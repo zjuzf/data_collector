@@ -12,6 +12,10 @@
     display: table;
 }
 
+#field{
+    cursor: pointer;
+}
+
 .video_box, .img_box{
     margin-bottom: -100000px;
     padding-bottom: 100000px;
@@ -37,7 +41,7 @@
 }
 
 .modal-dialog{
-    left: 5%
+    left: 12%
 }
 
 .deleteDetail{
@@ -50,6 +54,10 @@
 
 #phase-group{
     width:40%
+}
+
+#phase-group a{
+    cursor: pointer;
 }
 
 #phase-group .badge{

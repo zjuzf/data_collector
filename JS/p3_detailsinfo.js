@@ -87,7 +87,7 @@ detailsinfo.prototype.detailAction = function () {
             $('#detailList li:last').addClass("list-group-item").text(function () {
                 let qidStr = $(`#dropdown-detail button.dropdown-toggle`).text()
                 let qidValue = $('#input-qvalue').val()
-                return `${qidStr} ${qidValue}`
+                return `${qidStr}: ${qidValue}`
             }).append(`<button type="button" class="close closeListGroup" aria-label="Close"><span aria-hidden="true">&times;</span></button>`)
         
             $('.closeListGroup').on("click", function () {
