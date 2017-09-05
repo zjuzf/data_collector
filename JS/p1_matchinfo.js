@@ -373,6 +373,7 @@ function clickTeam(team, id) {
         }
         else throwError(ERR_teamRepeat);
 
+    p2.changeTeam();
     p4.refresh();
 }
 function changeTeam() {
@@ -389,7 +390,7 @@ function changeTeam() {
     document.getElementById("input_txt_team0").value = "";
     document.getElementById("input_txt_team1").value = "";
 
-    if(team0 != null && team0 != "" && team1 != null && team1 != "" && team0 == team1)
+    if(team0 != null && team0 != "" && team1 != null && team1 != "" && (team0 == team1 || team0 == origin_team1 || team1 == origin_team0))
     {
         throwError(ERR_teamRepeat);
         recovery(0);
@@ -400,7 +401,7 @@ function changeTeam() {
         if(team0 != null && team0 != "")
         {
             for(i = 0; i < p1.teamList.length; i++)
-                if(p1.teamList[i].name == team0) break;
+                if(p1.teamList[i].name == team0 || p1.teamList[i].tid == team0) break;
             if(i == p1.teamList.length)
             {
                 throwError(ERR_teamNotFound);
@@ -415,7 +416,7 @@ function changeTeam() {
         if(team1 != null && team1 != "")
         {
             for(i = 0; i < p1.teamList.length; i++)
-                if(p1.teamList[i].name == team1) break;
+                if(p1.teamList[i].name == team1 || p1.teamList[i].tid == team1) break;
             if(i == p1.teamList.length)
             {
                 throwError(ERR_teamNotFound);
@@ -429,6 +430,7 @@ function changeTeam() {
         }
     }
 
+    p2.changeTeam();
     p4.refresh();
 
     function recovery(id)

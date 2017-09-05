@@ -2,6 +2,10 @@
     height: 100%;
 }
 
+.toolbar {
+    margin-top: 10px;
+}
+
 .video_img_box{
     overflow:hidden;
     margin: 0 auto;
@@ -27,4 +31,8 @@
     padding: 10px 10px 10px 10px;
     max-height: 800px;
     overflow: scroll;
+}
+
+.team_players {
+
 }
