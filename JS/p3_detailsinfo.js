@@ -143,7 +143,7 @@ phaseGroup.prototype.createPhase = function() {
         .on("click", function(){
             $('#phase-group a').removeClass('active')
             $(this).addClass('active')
-            that.phaseSelected = $(this).attr("id")
+            that.phaseSelectedId = $(this).attr("id")
         })
         .append(`<div class="phaseText">阶段${this.phaseNum}</div>`).append(this.closeButton).append(this.spanBadge)
 
@@ -155,16 +155,8 @@ phaseGroup.prototype.createPhase = function() {
 
             $(this).parent().remove()
 
-            let idLength = $('#phase-group').children(".phase-list").length
-            $('#phase-group').children(".phase-list").each(function(index, element){
-                let newId = idLength - index - 1
-                $(element).attr("id", `phase${newId}`)
-                $(element).children(".phaseText").text(`阶段${newId}`)
-                // let newHtml = $(element).text()
-                // newHtml = newHtml.replace(/阶段\d+/, `阶段${newId}`)
-                // $(element).text(newHtml)
-                that.phaseNum = idLength - 1
-            })
+            that.updatePhaseId()
+
             console.log(that.sequences)
         })
     })
@@ -175,7 +167,14 @@ phaseGroup.prototype.getLastChar = function(str){
 }
 
 phaseGroup.prototype.updatePhaseId = function(){
-
+    let that = this
+    let idLength = $('#phase-group').children(".phase-list").length
+    $('#phase-group').children(".phase-list").each(function(index, element){
+        let newId = idLength - index
+        $(element).attr("id", `phase${newId}`)
+        $(element).children(".phaseText").text(`阶段${newId}`)
+        that.phaseNum = idLength
+    })
 }
 
 
