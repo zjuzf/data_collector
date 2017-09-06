@@ -125,10 +125,19 @@ detailsinfo.prototype.getModalData = function () {
     let actionEid = this.data.events[$('#dropdownMenu-action').val()].eid
     let actionQualifiers = this.getQualifiers()
     let id = getLastChar(this.phaseGroup.phaseSelectedId)
+
     let selectSequence = this.phaseGroup.sequences[id - 1]
     selectSequence.actions.push(new Action(actionTime, actionX, actionY,
          actionPid, actionEid, actionQualifiers))
+
     $(`#${this.phaseGroup.phaseSelectedId} .badge`).text(selectSequence.actions.length)
+
+    selectSequence.actions.sort((a, b)=> {
+        return a.time.min === b.time.min ? a.time.sec - b.time.sec : a.time.min - b.time.min
+    })
+
+    selectSequence.time.start = selectSequence.actions[0].time
+    selectSequence.time.end = selectSequence.actions[selectSequence.actions.length - 1].time
 }
 
 detailsinfo.prototype.cleanUpEvent = function () {
