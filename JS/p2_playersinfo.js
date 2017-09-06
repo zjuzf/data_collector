@@ -170,7 +170,6 @@ function renewPlayers(team, tid, playerList) {
     renewContent(team);
 }
 function renewData(team, players) {
-    console.log("2");
     var i;
     var playerList = team==0?data.players.team0:data.players.team1;
     playerList.splice(0,playerList.length);
