@@ -10,6 +10,7 @@ function throwError(errorcode)
         case ERR_timeMistake: console.error("非正常比赛时长！");break;
         case ERR_teamNotFound: console.error("该队伍不在系统中！");break;
         case ERR_teamRepeat: console.error("对战双方不能是同一支队伍！");break;
+        case ERR_firstFormationOverflow: alert("队伍首发阵容不能超过11人");break;
 
         case ERR_dataMiss_Matchinfo_Date_Year: alert("比赛年份不能为空！");break;
         case ERR_dataMiss_Matchinfo_Date_Month: alert("比赛月份不能为空！");break;
@@ -34,6 +35,7 @@ const ERR_dayNotAllowed = 0x74;
 const ERR_timeMistake = 0x75;
 const ERR_teamRepeat = 0x76;
 const ERR_teamNotFound = 0x77;
+const ERR_firstFormationOverflow = 0x78;
 
 const ERR_dataMiss_Matchinfo_Date_Year = 0x100;
 const ERR_dataMiss_Matchinfo_Date_Month = 0x101;
