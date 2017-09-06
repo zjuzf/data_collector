@@ -122,7 +122,7 @@ function generateHTML(team, i) {
     players[i].html += '<div class="panel-heading">';
     players[i].html += '<h4 class="panel-title">';
     players[i].html += '<a data-toggle="collapse" data-parent="#team'+team+'_players_group" href="#team'+team+'_player'+i+'_detailInfo">';
-    players[i].html += (players[i].position + "：" + players[i].name);
+    players[i].html += (players[i].position + "：" + players[i].jersey + "　" + players[i].name);
     players[i].html += '</a>';
     players[i].html += '</h4>';
     players[i].html += sf;
@@ -131,8 +131,6 @@ function generateHTML(team, i) {
     players[i].html += '<div id="team'+team+'_player'+i+'_detailInfo" class="panel-collapse collapse">';
     players[i].html += '<div class="panel-body">';
     players[i].html += '球员id：'+players[i].pid;
-    players[i].html += '<br>';
-    players[i].html += '球衣号码：'+players[i].jersey;
     players[i].html += '</div>';
     players[i].html += '</div>';
     players[i].html += '</div>';
@@ -142,7 +140,7 @@ function changeSF(team, i) {
     var sf_num = 0;
     for(var j = 0; j < players.length; j++)
         if(players[j].sf) sf_num++;
-    if(sf_num == 11) throwError(ERR_firstFormationOverflow);
+    if(sf_num == 11) throwError(ERR_playersExtra);
     else
     {
         players[i].sf = 1-players[i].sf;

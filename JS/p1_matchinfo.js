@@ -372,7 +372,7 @@ function clickTeam(team, id) {
         else throwError(ERR_teamRepeat);
 
     p2.changeTeam();
-    p4.refresh();
+    p3.addPlayer();
 }
 function changeTeam() {
     var team0 = document.getElementById("input_txt_team0").value;
