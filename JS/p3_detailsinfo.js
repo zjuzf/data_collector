@@ -1,21 +1,22 @@
-detailsinfo = function(constData, data)
+detailsinfo = function(data)
 {
     this.div = d3.select("#collapseThree").select("div")
-    this.constData = constData
     this.data = data
     this.phaseGroup = new phaseGroup()
     $(document).ready(()=>{
         this.updateTime()
+        this.saveAction()
         this.addDropDown()
         this.updateDropdown("dropdown-player")
         this.updateDropdown("dropdown-action")
         this.updateDropdown("dropdown-detail")
         this.detailAction()
         this.clickEvent()
+        this.cleanUpEvent()
         this.disableButton()
     })
 
-};
+}
 
 detailsinfo.prototype.clickEvent = function()
 {
@@ -33,7 +34,10 @@ detailsinfo.prototype.clickEvent = function()
         let player = $("#videoplayer")[0]
         player.pause()
         let coor = mouseMove(event)
-        this.popModal(coor)
+        if(this.phaseGroup.phaseSelectedId !== "")
+            this.popModal(coor)
+        else
+            throwError(ERR_notSelectPhase)
     })
 
     this.disableButton()
@@ -41,6 +45,7 @@ detailsinfo.prototype.clickEvent = function()
 
 detailsinfo.prototype.popModal = function(coor)
 {
+    console.log(this.phaseGroup.phaseSelectedId)
     $('#collector').modal({backdrop: 'static', keyboard: false})
 
     let time = this.dealTime()
@@ -67,7 +72,7 @@ detailsinfo.prototype.updateTime = function ()
         "timeupdate",
         function(){
             onTrackedVideoFrame(this.currentTime, this.duration)
-        });
+        })
 }
 
 detailsinfo.prototype.updateDropdown = function (id) {
@@ -75,7 +80,10 @@ detailsinfo.prototype.updateDropdown = function (id) {
     let newName = `#${id} ul li`
     $(newName).on("click", function () {
         let val = $(this).text()
-        $(`#${id} button.dropdown-toggle`).text(`${val} `).append(`<span class="caret"></span>`)
+        let liId = parseInt(getLastChar($(this).attr("id")))
+        $(`#${id} button.dropdown-toggle`).text(`${val} `)
+            .val(liId)
+            .append(`<span class="caret"></span>`)
         that.disableButton()
     })
 }
@@ -83,11 +91,15 @@ detailsinfo.prototype.updateDropdown = function (id) {
 detailsinfo.prototype.detailAction = function () {
     $('#addAction').on("click", function () {
         if($('#addAction').hasClass('.disabled') === false){
+            let qidStr = $(`#dropdown-detail button.dropdown-toggle`).text()
+            let qidValue = $('#input-qvalue').val()
+
             $('#detailList').append(`<li></li>`)
-            $('#detailList li:last').addClass("list-group-item").text(function () {
-                let qidStr = $(`#dropdown-detail button.dropdown-toggle`).text()
-                let qidValue = $('#input-qvalue').val()
-                return `${qidStr} ${qidValue}`
+            $('#detailList li:last').addClass("list-group-item")
+            .val(()=>$('#dropdownMenu-detail').val())
+            .attr("qvalue", qidValue)
+            .text(function () {
+                return `${qidStr}: ${qidValue}`
             }).append(`<button type="button" class="close closeListGroup" aria-label="Close"><span aria-hidden="true">&times;</span></button>`)
         
             $('.closeListGroup').on("click", function () {
@@ -97,14 +109,80 @@ detailsinfo.prototype.detailAction = function () {
     })
 }
 
+detailsinfo.prototype.saveAction = function () {
+    $('#save-button').on('click', ()=>{
+        this.getModalData()
+        console.log(this.phaseGroup.sequences)
+        $('#collector').modal('toggle')
+    })
+}
+
+detailsinfo.prototype.getModalData = function () {
+    let actionTime = new Time($('#input-min').val(), $('#input-sec').val())
+    let actionX = $('#input-x').val()
+    let actionY = $('#input-y').val()
+    let actionPid = data.players.team0[$('#dropdownMenu-player').val()].pid
+    let actionEid = this.data.events[$('#dropdownMenu-action').val()].eid
+    let actionQualifiers = this.getQualifiers()
+    let id = getLastChar(this.phaseGroup.phaseSelectedId)
+
+    let selectSequence = this.phaseGroup.sequences[id - 1]
+    selectSequence.actions.push(new Action(actionTime, actionX, actionY,
+         actionPid, actionEid, actionQualifiers))
+
+    $(`#${this.phaseGroup.phaseSelectedId} .badge`).text(selectSequence.actions.length)
+
+    selectSequence.actions.sort((a, b)=> {
+        return a.time.min === b.time.min ? a.time.sec - b.time.sec : a.time.min - b.time.min
+    })
+
+    selectSequence.time.start = selectSequence.actions[0].time
+    selectSequence.time.end = selectSequence.actions[selectSequence.actions.length - 1].time
+}
+
+detailsinfo.prototype.cleanUpEvent = function () {
+    $('#collector').on('hidden.bs.modal', ()=> {
+        $('#dropdownMenu-player').html(`球员<span class="caret"></span>`)
+        $('#dropdownMenu-action').html(`动作<span class="caret"></span>`)
+        $('#dropdownMenu-detail').html(`动作细节<span class="caret"></span>`)
+        $('#input-qvalue').val('')
+    })
+}
+
+detailsinfo.prototype.getQualifiers = function () {
+    let qualifiersList = []
+    let qualifiersIndexList = $('#detailList').children()
+    for(let i = 0; i < qualifiersIndexList.length; i++){
+        let index = $(qualifiersIndexList[i]).val()
+        let value = $(qualifiersIndexList[i]).attr("qvalue")
+        let tempQualifier = new Qualifier(this.data.qualifiers[index].qid, value)
+        qualifiersList.push(tempQualifier)
+    }
+    return qualifiersList
+}
+
 detailsinfo.prototype.addDropDown = function()
 {
-    for(const eid of this.constData.eid){
-        $('#dropdown-action ul').append(`<li><a href="#">${eid}</a></li>`)
-    }
-    for(const qid of this.constData.qid){
-        $('#dropdown-detail ul').append(`<li><a href="#">${qid}</a></li>`)    
-    }
+    this.addPlayer()
+    this.data.events.forEach((event, i)=>{
+        $('#dropdown-action ul')
+            .append(`<li id="action-${i}"><a>${event.name} ${event.code}</a></li>`)
+    })
+    this.data.qualifiers.forEach((qualifier, i)=>{
+        $('#dropdown-detail ul')
+            .append(`<li id="detail-${i}"><a>${qualifier.name} ${qualifier.code}</a></li>`)
+    })
+}
+
+detailsinfo.prototype.addPlayer = function()
+{
+    $('#dropdown-player ul').children().remove()
+    
+    data.players.team0.forEach((player, i)=>{
+        $('#dropdown-player ul').append(`<li id=player-${i}><a>名字:${player.name}
+            号码:${player.jersey} 位置:${player.position}</a></li>`)
+    })
+    this.updateDropdown("dropdown-player")
 }
 
 detailsinfo.prototype.disableButton = function()
@@ -124,7 +202,7 @@ detailsinfo.prototype.disableButton = function()
 }
 
 phaseGroup = function() {
-    this.phaseItem = `<a href="#" class="list-group-item"></a>`
+    this.phaseItem = `<a class="list-group-item"></a>`
     this.closeButton = `<button type="button" class="close closeListGroup" aria-label="Close"><span aria-hidden="true">×</span></button>`
     this.spanBadge = `<span class="badge">0</span>`
     this.phaseNum = 0
@@ -147,23 +225,28 @@ phaseGroup.prototype.createPhase = function() {
         })
         .append(`<div class="phaseText">阶段${this.phaseNum}</div>`).append(this.closeButton).append(this.spanBadge)
 
-        this.sequences.push({'actions':new Array(), 'time':{'start':'', 'end':''}})
+        this.phaseSelectedId = `phase${this.phaseNum}`
+        this.sequences.push(new Sequence())
 
         $('#phase-group a:nth-child(2) .closeListGroup').on("click", function(){
-            let id = parseInt(that.getLastChar($(this).parent().attr("id")))
-            that.sequences.splice(id, 1)
+            let id = parseInt(getLastChar($(this).parent().attr("id")))
+            that.sequences.splice(id - 1, 1)
 
             $(this).parent().remove()
 
             that.updatePhaseId()
 
+            if(that.sequences.length != 0)
+            {
+                let selectPhaseItem = $('#phase-group a:nth-child(2)')                
+                selectPhaseItem.addClass('active')
+                that.phaseSelectedId = selectPhaseItem.attr('id')
+            }
+            else
+                that.phaseSelectedId = ""
             console.log(that.sequences)
         })
     })
-}
-
-phaseGroup.prototype.getLastChar = function(str){
-    return str.charAt(str.length - 1)
 }
 
 phaseGroup.prototype.updatePhaseId = function(){
@@ -173,16 +256,36 @@ phaseGroup.prototype.updatePhaseId = function(){
         let newId = idLength - index
         $(element).attr("id", `phase${newId}`)
         $(element).children(".phaseText").text(`阶段${newId}`)
-        that.phaseNum = idLength
     })
+    this.phaseNum--
 }
 
+function getLastChar(str){
+    return str.charAt(str.length - 1)
+}
+
+function getTop(e){
+    let offset=e.offsetTop
+    if(e.offsetParent!=null) offset+=getTop(e.offsetParent)
+    return offset
+}
+
+function getLeft(e){
+    let offset=e.offsetLeft
+    if(e.offsetParent!=null) offset+=getLeft(e.offsetParent)
+    return offset
+}
 
 function mouseMove(ev)
 {
     Ev= ev || window.event
     let mousePos = mouseCoords(ev)
-    let fieldPos = {x:((mousePos.x-816)/6.8).toFixed(1), y:((mousePos.y-204.5)/4.5).toFixed(1)}
+    let e = document.getElementById("field")
+    let width = e.offsetWidth 
+    let height = e.offsetHeight
+    let x=getLeft(e)
+    let y=getTop(e)
+    let fieldPos = {x:((mousePos.x-x)/width*100).toFixed(1), y:((mousePos.y-y)/height*100).toFixed(1)}
     $("#xxx").text(fieldPos.x)
     $("#yyy").text(fieldPos.y)
     return fieldPos

@@ -116,9 +116,9 @@ matchinfo.prototype.createElements = function() {
     for(i=0;i<this.teamList.length;i++)
         this.team0_sel.select("ul")
             .append("li")
+            .attr("class","team_list")
             .attr("onclick", "clickTeam(0,"+i+")")
             .append("a")
-            .attr("href","#")
             .text(this.teamList[i].tid + "　" +this.teamList[i].name);
     this.team0.append("span")
         .attr("class", "input-group-addon")
@@ -160,9 +160,9 @@ matchinfo.prototype.createElements = function() {
     for(i=0;i<this.teamList.length;i++)
         this.team1_sel.select("ul")
             .append("li")
+            .attr("class","team_list")
             .attr("onclick", "clickTeam(1,"+i+")")
             .append("a")
-            .attr("href","#")
             .text(this.teamList[i].tid + "　" +this.teamList[i].name);
     this.team1.append("span")
         .attr("class", "input-group-addon")
@@ -374,7 +374,7 @@ function clickTeam(team, id) {
         else throwError(ERR_teamRepeat);
 
     p2.changeTeam();
-    p4.refresh();
+    p3.addPlayer();
 }
 function changeTeam() {
     var team0 = document.getElementById("input_txt_team0").value;
@@ -431,7 +431,7 @@ function changeTeam() {
     }
 
     p2.changeTeam();
-    p4.refresh();
+    p3.addPlayer();
 
     function recovery(id)
     {

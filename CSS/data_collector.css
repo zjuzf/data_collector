@@ -12,6 +12,10 @@
     display: table;
 }
 
+#field{
+    cursor: pointer;
+}
+
 .video_box, .img_box{
     margin-bottom: -100000px;
     padding-bottom: 100000px;
@@ -33,11 +37,24 @@
     overflow: scroll;
 }
 
+.team_list {
+    cursor: pointer;
+}
+
 .team_players {
 }
 
+.players_sf{
+    display: inline;
+    float:right;
+}
+
+.players_checkbox{
+    float:right;
+}
+
 .modal-dialog{
-    left: 5%
+    left: 12%
 }
 
 .deleteDetail{
@@ -45,11 +62,15 @@
 }
 
 #input-qvalue{
-    width:50%
+    width:40%
 }
 
 #phase-group{
     width:40%
+}
+
+#phase-group a{
+    cursor: pointer;
 }
 
 #phase-group .badge{
