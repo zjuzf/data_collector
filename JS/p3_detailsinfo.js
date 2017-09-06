@@ -12,6 +12,7 @@ detailsinfo = function(data)
         this.updateDropdown("dropdown-detail")
         this.detailAction()
         this.clickEvent()
+        this.cleanUpEvent()
         this.disableButton()
     })
 
@@ -130,6 +131,15 @@ detailsinfo.prototype.getModalData = function () {
     $(`#${this.phaseGroup.phaseSelectedId} .badge`).text(selectSequence.actions.length)
 }
 
+detailsinfo.prototype.cleanUpEvent = function () {
+    $('#collector').on('hidden.bs.modal', ()=> {
+        $('#dropdownMenu-player').html(`球员<span class="caret"></span>`)
+        $('#dropdownMenu-action').html(`动作<span class="caret"></span>`)
+        $('#dropdownMenu-detail').html(`动作细节<span class="caret"></span>`)
+        $('#input-qvalue').val('')
+    })
+}
+
 detailsinfo.prototype.getQualifiers = function () {
     let qualifiersList = []
     let qualifiersIndexList = $('#detailList').children()
@@ -149,7 +159,7 @@ detailsinfo.prototype.addDropDown = function()
         $('#dropdown-action ul')
             .append(`<li id="action-${i}"><a>${event.name} ${event.code}</a></li>`)
     })
-    this.data.events.forEach((qualifier, i)=>{
+    this.data.qualifiers.forEach((qualifier, i)=>{
         $('#dropdown-detail ul')
             .append(`<li id="detail-${i}"><a>${qualifier.name} ${qualifier.code}</a></li>`)
     })
