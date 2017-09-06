@@ -525,5 +525,8 @@ function changeFile() {
 
     data.matchinfo.video.path = path;
     data.matchinfo.video.name = name;
+
+    document.getElementById("videoplayer").src = path+name;
+
     p4.refresh();
 }
