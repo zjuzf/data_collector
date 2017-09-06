@@ -429,6 +429,7 @@ function changeTeam() {
     }
 
     p2.changeTeam();
+    p3.addDropDown();
 
     function recovery(id)
     {

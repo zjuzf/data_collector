@@ -73,11 +73,29 @@ function renewContent(team) {
     var innerhtml = "";
     innerhtml += '<div class="panel-group" id="team'+team+'_players_group">';
     for(i=0; i<players.length; i++)
-        if(players[i].sf == 1)
+        if(players[i].sf == 1 && players[i].position == "前锋")
+            innerhtml += players[i].html;
+    for(i=0; i<players.length; i++)
+        if(players[i].sf == 1 && players[i].position == "中场")
+            innerhtml += players[i].html;
+    for(i=0; i<players.length; i++)
+        if(players[i].sf == 1 && players[i].position == "后卫")
+            innerhtml += players[i].html;
+    for(i=0; i<players.length; i++)
+        if(players[i].sf == 1 && players[i].position == "守门员")
             innerhtml += players[i].html;
     innerhtml += '<br>';
     for(i=0; i<players.length; i++)
-        if(players[i].sf == 0)
+        if(players[i].sf == 0 && players[i].position == "前锋")
+            innerhtml += players[i].html;
+    for(i=0; i<players.length; i++)
+        if(players[i].sf == 0 && players[i].position == "中场")
+            innerhtml += players[i].html;
+    for(i=0; i<players.length; i++)
+        if(players[i].sf == 0 && players[i].position == "后卫")
+            innerhtml += players[i].html;
+    for(i=0; i<players.length; i++)
+        if(players[i].sf == 0 && players[i].position == "守门员")
             innerhtml += players[i].html;
     innerhtml += '</div>';
 
