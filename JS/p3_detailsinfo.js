@@ -6,6 +6,7 @@ detailsinfo = function(constData, data)
     this.phaseGroup = new phaseGroup()
     $(document).ready(()=>{
         this.updateTime()
+        this.saveAction()
         this.addDropDown()
         this.updateDropdown("dropdown-player")
         this.updateDropdown("dropdown-action")
@@ -33,7 +34,10 @@ detailsinfo.prototype.clickEvent = function()
         let player = $("#videoplayer")[0]
         player.pause()
         let coor = mouseMove(event)
-        this.popModal(coor)
+        if(this.phaseGroup.phaseSelectedId !== "")
+            this.popModal(coor)
+        else
+            throwError(ERR_notSelectPhase)
     })
 
     this.disableButton()
@@ -41,6 +45,7 @@ detailsinfo.prototype.clickEvent = function()
 
 detailsinfo.prototype.popModal = function(coor)
 {
+    console.log(this.phaseGroup.phaseSelectedId)
     $('#collector').modal({backdrop: 'static', keyboard: false})
 
     let time = this.dealTime()
@@ -97,6 +102,28 @@ detailsinfo.prototype.detailAction = function () {
     })
 }
 
+detailsinfo.prototype.saveAction = function () {
+    $('#save-button').on('click', ()=>{
+        this.getModalData()
+        console.log(this.phaseGroup.sequences)
+        $('#collector').modal('toggle')
+    })
+}
+
+detailsinfo.prototype.getModalData = function () {
+    let actionTime = new Time($('#input-min').val(), $('#input-sec').val())
+    let actionX = $('#input-x').val()
+    let actionY = $('#input-y').val()
+    let actionPid = 0
+    let actionEid = 0
+    let actionQualifiers = []
+    let id = getLastChar(this.phaseGroup.phaseSelectedId)
+    let selectSequence = this.phaseGroup.sequences[id - 1]
+    selectSequence.actions.push(new Action(actionTime, actionX, actionY,
+         actionPid, actionEid, actionQualifiers))
+    $(`#${this.phaseGroup.phaseSelectedId} .badge`).text(selectSequence.actions.length)
+}
+
 detailsinfo.prototype.addDropDown = function()
 {
     for(const eid of this.constData.eid){
@@ -147,23 +174,28 @@ phaseGroup.prototype.createPhase = function() {
         })
         .append(`<div class="phaseText">阶段${this.phaseNum}</div>`).append(this.closeButton).append(this.spanBadge)
 
-        this.sequences.push({'actions':new Array(), 'time':{'start':'', 'end':''}})
+        this.phaseSelectedId = `phase${this.phaseNum}`
+        this.sequences.push(new Sequence())
 
         $('#phase-group a:nth-child(2) .closeListGroup').on("click", function(){
-            let id = parseInt(that.getLastChar($(this).parent().attr("id")))
-            that.sequences.splice(id, 1)
+            let id = parseInt(getLastChar($(this).parent().attr("id")))
+            that.sequences.splice(id - 1, 1)
 
             $(this).parent().remove()
 
             that.updatePhaseId()
 
+            if(that.sequences.length != 0)
+            {
+                let selectPhaseItem = $('#phase-group a:nth-child(2)')                
+                selectPhaseItem.addClass('active')
+                that.phaseSelectedId = selectPhaseItem.attr('id')
+            }
+            else
+                that.phaseSelectedId = ""
             console.log(that.sequences)
         })
     })
-}
-
-phaseGroup.prototype.getLastChar = function(str){
-    return str.charAt(str.length - 1)
 }
 
 phaseGroup.prototype.updatePhaseId = function(){
@@ -177,6 +209,9 @@ phaseGroup.prototype.updatePhaseId = function(){
     this.phaseNum--
 }
 
+function getLastChar(str){
+    return str.charAt(str.length - 1)
+}
 
 function getTop(e){
     let offset=e.offsetTop
@@ -202,7 +237,6 @@ function mouseMove(ev)
     let fieldPos = {x:((mousePos.x-x)/width*100).toFixed(1), y:((mousePos.y-y)/height*100).toFixed(1)}
     $("#xxx").text(fieldPos.x)
     $("#yyy").text(fieldPos.y)
-    console.log(fieldPos, x, y, width, height)
     return fieldPos
 }
 
