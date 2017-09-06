@@ -15,7 +15,7 @@ detailsinfo = function(constData, data)
         this.disableButton()
     })
 
-};
+}
 
 detailsinfo.prototype.clickEvent = function()
 {
@@ -67,7 +67,7 @@ detailsinfo.prototype.updateTime = function ()
         "timeupdate",
         function(){
             onTrackedVideoFrame(this.currentTime, this.duration)
-        });
+        })
 }
 
 detailsinfo.prototype.updateDropdown = function (id) {
@@ -179,28 +179,31 @@ phaseGroup.prototype.updatePhaseId = function(){
 
 
 function getTop(e){
-    var offset=e.offsetTop;
-    if(e.offsetParent!=null) offset+=getTop(e.offsetParent);
-    return offset;
+    let offset=e.offsetTop
+    if(e.offsetParent!=null) offset+=getTop(e.offsetParent)
+    return offset
 }
 
 function getLeft(e){
-    var offset=e.offsetLeft;
-    if(e.offsetParent!=null) offset+=getLeft(e.offsetParent);
-    return offset;
+    let offset=e.offsetLeft
+    if(e.offsetParent!=null) offset+=getLeft(e.offsetParent)
+    return offset
 }
 
 function mouseMove(ev)
 {
-    Ev= ev || window.event;
-    var mousePos = mouseCoords(ev);
-    var e = document.getElementById("field")
-    var width = e.offsetWidth ;
-    var height =e.offsetHeight;
-    var x=getLeft(e)
-    var y=getTop(e)
-    $("#xxx").text (((mousePos.x-x)/width*100).toFixed(1));
-    $("#yyy").text (((mousePos.y-y)/height*100).toFixed(1));
+    Ev= ev || window.event
+    let mousePos = mouseCoords(ev)
+    let e = document.getElementById("field")
+    let width = e.offsetWidth 
+    let height = e.offsetHeight
+    let x=getLeft(e)
+    let y=getTop(e)
+    let fieldPos = {x:((mousePos.x-x)/width*100).toFixed(1), y:((mousePos.y-y)/height*100).toFixed(1)}
+    $("#xxx").text(fieldPos.x)
+    $("#yyy").text(fieldPos.y)
+    console.log(fieldPos, x, y, width, height)
+    return fieldPos
 }
 
 function mouseCoords(ev)
