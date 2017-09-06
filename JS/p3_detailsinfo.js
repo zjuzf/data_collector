@@ -163,6 +163,7 @@ detailsinfo.prototype.addPlayer = function()
         $('#dropdown-player ul').append(`<li id=player-${i}><a>名字:${player.name}
             号码:${player.jersey} 位置:${player.position}</a></li>`)
     })
+    this.updateDropdown("dropdown-player")
 }
 
 detailsinfo.prototype.disableButton = function()
