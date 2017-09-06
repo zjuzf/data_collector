@@ -74,6 +74,9 @@ preview.prototype.commited = function() {
 
 preview.prototype.check = function() {
     var flag = 1;
+    var ts;
+
+    //check matchinfo
     if(flag && isNull(data.matchinfo.date.year)) existERR(ERR_dataMiss_Matchinfo_Date_Year);
     if(flag && isNull(data.matchinfo.date.month)) existERR(ERR_dataMiss_Matchinfo_Date_Month);
     if(flag && isNull(data.matchinfo.date.day)) existERR(ERR_dataMiss_Matchinfo_Date_Day);
@@ -84,12 +87,61 @@ preview.prototype.check = function() {
     if(flag && isNull(data.matchinfo.score0)) existERR(ERR_dataMiss_Matchinfo_Score0);
     if(flag && isNull(data.matchinfo.score1)) existERR(ERR_dataMiss_Matchinfo_Score1);
     if(flag && isNull(data.matchinfo.video.name)) existERR(ERR_dataMiss_Matchinfo_Video);
+
+    //check players
+    if(flag) {
+        ts = TeamStruct(0);
+        if(ts.forward + ts.middle + ts.back + ts.goalkeeper == 0) existERR(ERR_dataMiss_Players_Team0);
+        else
+        {
+            if(ts.forward + ts.middle + ts.back + ts.goalkeeper < 11 && ts.substitute > 0) existWNG(WNG_teamLackPlayers0);
+            if(ts.forward == 0) existWNG(WNG_teamLackForward0);
+            if(ts.middle == 0) existWNG(WNG_teamLackMiddle0);
+            if(ts.back == 0) existWNG(WNG_teamLackBack0);
+            if(ts.goalkeeper == 0) existWNG(WNG_teamLackGoalkeeper0);
+        }
+    }
+    if(flag) {
+        ts = TeamStruct(1);
+        if(ts.forward + ts.middle + ts.back + ts.goalkeeper == 0) existERR(ERR_dataMiss_Players_Team1);
+        else
+        {
+            if(ts.forward + ts.middle + ts.back + ts.goalkeeper < 11 && ts.substitute > 0) existWNG(WNG_teamLackPlayers1);
+            if(ts.forward == 0) existWNG(WNG_teamLackForward1);
+            if(ts.middle == 0) existWNG(WNG_teamLackMiddle1);
+            if(ts.back == 0) existWNG(WNG_teamLackBack1);
+            if(ts.goalkeeper == 0) existWNG(WNG_teamLackGoalkeeper1);
+        }
+    }
+
     // if(flag && isNull(data.)) existERR();
 
     return flag;
 
     function isNull(data) {return data===""||data===null||data===undefined;}
+    function TeamStruct(team) {
+        var players = team?data.players.team1:data.players.team0;
+        var num = new Array(5);
+        num[0]=num[1]=num[2]=num[3]=num[4]=0;
+        for(var i = 0; i < players.length; i++)
+            switch (players[i].position)
+            {
+                case "前锋": num[0]++;break;
+                case "中场": num[1]++;break;
+                case "后卫": num[2]++;break;
+                case "守门员": num[3]++;break;
+                case "替补": num[4]++;break;
+            }
+        return {
+            forward: num[0],
+            middle: num[1],
+            back: num[2],
+            goalkeeper: num[3],
+            substitute: num[4]
+        };
+    }
     function existERR(error) {throwError(error);flag=0;}
+    function existWNG(warning) {throwError(warning);}
 };
 
 preview.prototype.generateFile = function() {
