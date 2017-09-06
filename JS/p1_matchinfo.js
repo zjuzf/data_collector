@@ -190,15 +190,16 @@ matchinfo.prototype.createElements = function() {
         .attr("class", "input-group-btn");
     this.uploadFile.append("label")
         .attr("class", "btn btn-default")
-        .attr("for","input_file_uploadFile")
-        .text("选择");
-    this.uploadFile.append("form")
-        .append("input")
-        .attr("type","file")
-        .attr("id","input_file_uploadFile")
-        .attr("style","position:absolute;clip:rect(0 0 0 0);")
-        .attr("accept","video/mp4")
-        .attr("onchange","changeFile()");
+        // .attr("for","input_file_uploadFile")
+        .text("选择")
+        .on("click", ()=>changeFile());
+    // this.uploadFile.append("form")
+    //     .append("input")
+    //     .attr("type","file")
+    //     .attr("id","input_file_uploadFile")
+    //     .attr("style","position:absolute;clip:rect(0 0 0 0);")
+    //     .attr("accept","video/mp4")
+    //     .attr("onchange","changeFile()");
 };
 
 function changeDate() {
@@ -514,19 +515,30 @@ function changeScore() {
     p4.refresh();
 }
 function changeFile() {
-    var file = document.getElementById("input_file_uploadFile").value;
-    var name_idx = file.lastIndexOf("\\");
-    var name = file.substring(name_idx+1);
-    var path = "./Matches/";
+    // var file = document.getElementById("input_file_uploadFile").value;
+    // console.log(file)
+    // var name_idx = file.lastIndexOf("\\");
+    // var name = file.substring(name_idx+1);
+    // var path = "./Matches/";
 
-    var txt = document.getElementById("input_txt_fileName");
+    // var txt = document.getElementById("input_txt_fileName");
 
-    txt.value = name;
+    // txt.value = name;
 
+    // data.matchinfo.video.path = path;
+    // data.matchinfo.video.name = name;
+
+    // document.getElementById("videoplayer").src = path+name;
+    const {dialog} = nodeRequire('electron').remote
+    const fileArray = dialog.showOpenDialog()
+    const file = fileArray[0]
+    console.log(file)
+    let name_idx = file.lastIndexOf("\\")
+    let name = file.substring(name_idx + 1)
+    let path = file.substring(0, name_idx)
     data.matchinfo.video.path = path;
     data.matchinfo.video.name = name;
-
-    document.getElementById("videoplayer").src = path+name;
-
+    document.getElementById("input_txt_fileName").value = file
+    document.getElementById("videoplayer").src = file
     p4.refresh();
 }
