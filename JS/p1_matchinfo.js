@@ -116,6 +116,7 @@ matchinfo.prototype.createElements = function() {
     for(i=0;i<this.teamList.length;i++)
         this.team0_sel.select("ul")
             .append("li")
+            .attr("class","team_list")
             .attr("onclick", "clickTeam(0,"+i+")")
             .append("a")
             .text(this.teamList[i].tid + "　" +this.teamList[i].name);
@@ -159,6 +160,7 @@ matchinfo.prototype.createElements = function() {
     for(i=0;i<this.teamList.length;i++)
         this.team1_sel.select("ul")
             .append("li")
+            .attr("class","team_list")
             .attr("onclick", "clickTeam(1,"+i+")")
             .append("a")
             .text(this.teamList[i].tid + "　" +this.teamList[i].name);

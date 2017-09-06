@@ -37,6 +37,10 @@
     overflow: scroll;
 }
 
+.team_list {
+    cursor: pointer;
+}
+
 .team_players {
 }
 
