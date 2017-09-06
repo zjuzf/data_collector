@@ -28,11 +28,14 @@ function main(error, jsondata)
                 name:""
             }
         },
-        players: new Array(),
+        players:{
+            team0: new Array(),
+            team1: new Array()
+        },
         sequences: new Array()
     };
-    p1 = new matchinfo(jsondata, data.matchinfo);
-    p2 = new playersinfo();
-    p3 = new detailsinfo();
+    p1 = new matchinfo(jsondata);
+    p2 = new playersinfo(jsondata);
+    p3 = new detailsinfo(jsondata);
     p4 = new preview();
 }

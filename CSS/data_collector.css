@@ -2,10 +2,18 @@
     height: 100%;
 }
 
+.toolbar {
+    margin-top: 10px;
+}
+
 .video_img_box{
     overflow:hidden;
     margin: 0 auto;
     display: table;
+}
+
+#field{
+    cursor: pointer;
 }
 
 .video_box, .img_box{
@@ -27,4 +35,48 @@
     padding: 10px 10px 10px 10px;
     max-height: 800px;
     overflow: scroll;
+}
+
+.team_players {
+}
+
+.players_sf{
+    display: inline;
+    float:right;
+}
+
+.players_checkbox{
+    float:right;
+}
+
+.modal-dialog{
+    left: 12%
+}
+
+.deleteDetail{
+    right: 10%
+}
+
+#input-qvalue{
+    width:40%
+}
+
+#phase-group{
+    width:40%
+}
+
+#phase-group a{
+    cursor: pointer;
+}
+
+#phase-group .badge{
+    margin-right:2%
+}
+
+.glyphicon-plus{
+    float:right
+}
+
+.phaseText{
+    display:inline
 }

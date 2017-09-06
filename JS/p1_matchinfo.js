@@ -118,7 +118,6 @@ matchinfo.prototype.createElements = function() {
             .append("li")
             .attr("onclick", "clickTeam(0,"+i+")")
             .append("a")
-            .attr("href","#")
             .text(this.teamList[i].tid + "　" +this.teamList[i].name);
     this.team0.append("span")
         .attr("class", "input-group-addon")
@@ -162,7 +161,6 @@ matchinfo.prototype.createElements = function() {
             .append("li")
             .attr("onclick", "clickTeam(1,"+i+")")
             .append("a")
-            .attr("href","#")
             .text(this.teamList[i].tid + "　" +this.teamList[i].name);
     this.team1.append("span")
         .attr("class", "input-group-addon")
@@ -373,7 +371,8 @@ function clickTeam(team, id) {
         }
         else throwError(ERR_teamRepeat);
 
-    p4.refresh();
+    p2.changeTeam();
+    p3.addPlayer();
 }
 function changeTeam() {
     var team0 = document.getElementById("input_txt_team0").value;
@@ -389,7 +388,7 @@ function changeTeam() {
     document.getElementById("input_txt_team0").value = "";
     document.getElementById("input_txt_team1").value = "";
 
-    if(team0 != null && team0 != "" && team1 != null && team1 != "" && team0 == team1)
+    if(team0 != null && team0 != "" && team1 != null && team1 != "" && (team0 == team1 || team0 == origin_team1 || team1 == origin_team0))
     {
         throwError(ERR_teamRepeat);
         recovery(0);
@@ -400,7 +399,7 @@ function changeTeam() {
         if(team0 != null && team0 != "")
         {
             for(i = 0; i < p1.teamList.length; i++)
-                if(p1.teamList[i].name == team0) break;
+                if(p1.teamList[i].name == team0 || p1.teamList[i].tid == team0) break;
             if(i == p1.teamList.length)
             {
                 throwError(ERR_teamNotFound);
@@ -415,7 +414,7 @@ function changeTeam() {
         if(team1 != null && team1 != "")
         {
             for(i = 0; i < p1.teamList.length; i++)
-                if(p1.teamList[i].name == team1) break;
+                if(p1.teamList[i].name == team1 || p1.teamList[i].tid == team1) break;
             if(i == p1.teamList.length)
             {
                 throwError(ERR_teamNotFound);
@@ -429,7 +428,8 @@ function changeTeam() {
         }
     }
 
-    p4.refresh();
+    p2.changeTeam();
+    p3.addPlayer();
 
     function recovery(id)
     {

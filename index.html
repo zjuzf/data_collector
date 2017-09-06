@@ -11,10 +11,12 @@
             delete window.module;
         </script>
         <script type="text/javascript" src="./LIB/jquery.min.js"></script>
+        <script type="text/javascript" src="./LIB/FileSaver.js"></script>
         <script type="text/javascript" src="./LIB/d3.js"></script>
         <link href="./CSS/bootstrap.css" rel="stylesheet" />
         <script type="text/javascript" src="./LIB/bootstrap.min.js"></script>
         <script type="text/javascript" src="./JS/error.js"></script>
+        <script type="text/javascript" src="./JS/button_events.js"></script>
         <link href="./CSS/data_collector.css" rel="stylesheet" />
     </head>
 
@@ -58,7 +60,7 @@
                         </h4>
                     </div>
                     <div id="collapseTwo" class="panel-collapse collapse">
-                        <div class="panel-body">
+                        <div id="collapseTwoBody" class="panel-body">
                         </div>
                     </div>
                 </div>
@@ -74,22 +76,35 @@
                         <div class="panel-body">
                             <div class="row box video_img_box">
                                 <div class="col-md-6 video_box" id="video">
-<<<<<<< HEAD
                                     <video id="videoplayer" src=".\Matches\Match0\0001.mp4" controls="controls" width='100%'></video>
-=======
-                                    <video id="videoplayer" src="0001.mp4" controls="controls" width='100%' preload="auto"></video>
->>>>>>> master
                                 </div>
                                 <div class="col-md-6 img_box" id="virtual_field">
                                     <img src="SRC/img/field.jpg" id="field" style="width:100%;"/>
                                 </div>
                             </div>
+                            <div class="list-group" id="phase-group">
+                                    <a class="list-group-item">添加阶段<span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                                    </a>
+                            </div>
+
                             <div><button id = "pause" type="button">click</button></div>
-                            <div id="current">0:00</div>
-                            <div id="duration">0:00</div>
+                            <div id="current">0.0</div>
+                            <div id="duration">0.0</div>
                             <div id="xxx">1</div>
                             <div id="yyy">1</div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="btn-toolbar toolbar" role="toolbar">
+                    <div class="btn-group" role="group">
+                        <button id="btn_determine" type="button" class="btn btn-default" onclick="submitData()">确认提交</button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button id="btn_clear" type="button" class="btn btn-default" onclick="clearAll()">清除所有</button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button id="btn_exit" type="button" class="btn btn-default" onclick="exitSystem()">退出系统</button>
                     </div>
                 </div>
             </div>
@@ -106,21 +121,82 @@
         </div>
     </div>
 
-    <div class="btn-toolbar" role="toolbar">
-        <div class="btn-group" role="group">
-            <button id="btn_determine" type="button" class="btn btn-default">确认提交</button>
-        </div>
-        <div class="btn-group" role="group">
-            <button id="btn_clear" type="button" class="btn btn-default">清除所有</button>
-        </div>
-        <div class="btn-group" role="group">
-            <button id="btn_exit" type="button" class="btn btn-default">退出系统</button>
-        </div>
-    </div>
+    <div class="modal fade" id = "collector" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">细节数据</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="addon-time">时间</span>
+                        <input type="text" id = "input-min" class="form-control" placeholder="分" aria-describedby="addon-time">
+                        <span class="input-group-addon" id="time-min">分</span>
+                        <input type="text" id = "input-sec" class="form-control" placeholder="秒" aria-describedby="addon-time">
+                        <span class="input-group-addon" id="time-sec">秒</span>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-coor">坐标</span>
+                        <input type="text" id = "input-x" class="form-control" placeholder="x" aria-describedby="addon-time">
+                        <span class="input-group-addon" id="coor-x">x</span>
+                        <input type="text" id = "input-y" class="form-control" placeholder="y" aria-describedby="addon-time">
+                        <span class="input-group-addon" id="coor-y">y</span>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-player">球员</span>
+                        <div class="dropdown" id = "dropdown-player">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu-player" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                球员
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu-player">
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-action">动作</span>
+                        <div class="dropdown" id = "dropdown-action">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu-action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                动作
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu-action">
+                                
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-detail">动作细节</span>    
+                        <div class="dropdown input-group-btn" id = "dropdown-detail">
+                           <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu-detail" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                动作细节
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu-detail">
+                            </ul>
+                        </div>
+                        <span class="input-group-addon" id="basic-qvalue">数值</span>
+                        <input type="text" id = "input-qvalue" class="form-control" placeholder="值" aria-describedby="basic-qvalue">
+                        <button type="button" class="btn btn-primary" id="addAction">Add</button>
+                    </div>
+                    <div id="detailGroup">
+                        <ul class="list-group" id="detailList"></ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id = "save-button">Save</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <script type="text/javascript" src="JS/sequenceData.js"></script>
+
     <script type="text/javascript" src="JS/p1_matchinfo.js"></script>
     <script type="text/javascript" src="JS/p2_playersinfo.js"></script>
     <script type="text/javascript" src="JS/p3_detailsinfo.js"></script>
-    <script type="text/javascript" src="JS/p3_detailsinfo_FieldClick.js"></script>
     <script type="text/javascript" src="JS/p4_preview.js"></script>
     <script type="text/javascript" src="JS/main.js"></script>
 </body>
