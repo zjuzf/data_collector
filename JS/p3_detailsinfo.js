@@ -288,7 +288,7 @@ actionsGroup.prototype.refresh = function() {
         if(sequence.actions.length != 0)
             duringTime = "(" + sequence.time.start.min + ":" + sequence.time.start.sec + "~" +
                 sequence.time.end.min + ":" + sequence.time.end.sec + ")";
-        document.getElementById('actions-group').innerHTML = '<a class="list-group-item">动作列表'+duringTime+'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>';
+        document.getElementById('actions-group').innerHTML = '<a class="list-group-item">动作列表'+duringTime+'</a>';
     }
     function refreshContent() {
         var inner = "";
