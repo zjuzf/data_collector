@@ -1,7 +1,6 @@
-detailsinfo = function(constData, data)
+detailsinfo = function(data)
 {
     this.div = d3.select("#collapseThree").select("div")
-    this.constData = constData
     this.data = data
     this.phaseGroup = new phaseGroup()
     $(document).ready(()=>{
@@ -80,7 +79,10 @@ detailsinfo.prototype.updateDropdown = function (id) {
     let newName = `#${id} ul li`
     $(newName).on("click", function () {
         let val = $(this).text()
-        $(`#${id} button.dropdown-toggle`).text(`${val} `).append(`<span class="caret"></span>`)
+        let liId = parseInt(getLastChar($(this).attr("id")))
+        $(`#${id} button.dropdown-toggle`).text(`${val} `)
+            .val(liId)
+            .append(`<span class="caret"></span>`)
         that.disableButton()
     })
 }
@@ -88,10 +90,14 @@ detailsinfo.prototype.updateDropdown = function (id) {
 detailsinfo.prototype.detailAction = function () {
     $('#addAction').on("click", function () {
         if($('#addAction').hasClass('.disabled') === false){
+            let qidStr = $(`#dropdown-detail button.dropdown-toggle`).text()
+            let qidValue = $('#input-qvalue').val()
+
             $('#detailList').append(`<li></li>`)
-            $('#detailList li:last').addClass("list-group-item").text(function () {
-                let qidStr = $(`#dropdown-detail button.dropdown-toggle`).text()
-                let qidValue = $('#input-qvalue').val()
+            $('#detailList li:last').addClass("list-group-item")
+            .val(()=>$('#dropdownMenu-detail').val())
+            .attr("qvalue", qidValue)
+            .text(function () {
                 return `${qidStr}: ${qidValue}`
             }).append(`<button type="button" class="close closeListGroup" aria-label="Close"><span aria-hidden="true">&times;</span></button>`)
         
@@ -114,9 +120,9 @@ detailsinfo.prototype.getModalData = function () {
     let actionTime = new Time($('#input-min').val(), $('#input-sec').val())
     let actionX = $('#input-x').val()
     let actionY = $('#input-y').val()
-    let actionPid = 0
-    let actionEid = 0
-    let actionQualifiers = []
+    let actionPid = data.players.team0[$('#dropdownMenu-player').val()].pid
+    let actionEid = this.data.events[$('#dropdownMenu-action').val()].eid
+    let actionQualifiers = this.getQualifiers()
     let id = getLastChar(this.phaseGroup.phaseSelectedId)
     let selectSequence = this.phaseGroup.sequences[id - 1]
     selectSequence.actions.push(new Action(actionTime, actionX, actionY,
@@ -124,14 +130,39 @@ detailsinfo.prototype.getModalData = function () {
     $(`#${this.phaseGroup.phaseSelectedId} .badge`).text(selectSequence.actions.length)
 }
 
+detailsinfo.prototype.getQualifiers = function () {
+    let qualifiersList = []
+    let qualifiersIndexList = $('#detailList').children()
+    for(let i = 0; i < qualifiersIndexList.length; i++){
+        let index = $(qualifiersIndexList[i]).val()
+        let value = $(qualifiersIndexList[i]).attr("qvalue")
+        let tempQualifier = new Qualifier(this.data.qualifiers[index].qid, value)
+        qualifiersList.push(tempQualifier)
+    }
+    return qualifiersList
+}
+
 detailsinfo.prototype.addDropDown = function()
 {
-    for(const eid of this.constData.eid){
-        $('#dropdown-action ul').append(`<li><a>${eid}</a></li>`)
-    }
-    for(const qid of this.constData.qid){
-        $('#dropdown-detail ul').append(`<li><a>${qid}</a></li>`)
-    }
+    this.addPlayer()
+    this.data.events.forEach((event, i)=>{
+        $('#dropdown-action ul')
+            .append(`<li id="action-${i}"><a>${event.name} ${event.code}</a></li>`)
+    })
+    this.data.events.forEach((qualifier, i)=>{
+        $('#dropdown-detail ul')
+            .append(`<li id="detail-${i}"><a>${qualifier.name} ${qualifier.code}</a></li>`)
+    })
+}
+
+detailsinfo.prototype.addPlayer = function()
+{
+    $('#dropdown-player ul').children().remove()
+    
+    data.players.team0.forEach((player, i)=>{
+        $('#dropdown-player ul').append(`<li id=player-${i}><a>名字:${player.name}
+            号码:${player.jersey} 位置:${player.position}</a></li>`)
+    })
 }
 
 detailsinfo.prototype.disableButton = function()
