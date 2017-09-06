@@ -429,7 +429,6 @@ function changeTeam() {
     }
 
     p2.changeTeam();
-    p4.refresh();
 
     function recovery(id)
     {

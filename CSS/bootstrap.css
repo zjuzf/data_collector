@@ -5887,7 +5887,8 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:focus, a.list-g
     margin-top: 0;
     margin-bottom: 0;
     font-size: 16px;
-    color: inherit
+    color: inherit;
+    display: inline;
 }
 
 .panel-title > .small, .panel-title > .small > a, .panel-title > a, .panel-title > small, .panel-title > small > a {

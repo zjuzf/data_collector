@@ -40,6 +40,15 @@
 .team_players {
 }
 
+.players_sf{
+    display: inline;
+    float:right;
+}
+
+.players_checkbox{
+    float:right;
+}
+
 .modal-dialog{
     left: 12%
 }
