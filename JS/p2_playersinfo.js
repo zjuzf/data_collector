@@ -14,7 +14,6 @@ playersinfo = function(database)
 };
 
 playersinfo.prototype.createElements = function() {
-
     this.div.innerHTML =
         "<div class='container-fluid'>" +
         "   <div class='row box'>" +
