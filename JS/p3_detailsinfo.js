@@ -9,9 +9,6 @@ detailsinfo = function(data) {
         this.updateTime()
         this.saveAction()
         this.addDropDown()
-        this.updateDropdown("dropdown-player")
-        this.updateDropdown("dropdown-action")
-        this.updateDropdown("dropdown-detail")
         this.detailAction()
         this.clickEvent()
         this.cleanUpEvent()
@@ -84,7 +81,11 @@ detailsinfo.prototype.updateDropdown = function (id) {
             .val(liId)
             .append(`<span class="caret"></span>`)
         that.disableButton()
-        that.addQualifier()
+        if(id == "dropdown-action")
+        {
+            $(`#dropdown-detail button.dropdown-toggle`).html(`动作细节<span class="caret"></span>`)
+            that.addQualifier()
+        }
     })
 }
 
@@ -168,7 +169,6 @@ detailsinfo.prototype.getQualifiers = function () {
 detailsinfo.prototype.addDropDown = function() {
     this.addPlayer()
     this.addAction()
-    this.addQualifier()
 }
 
 detailsinfo.prototype.addPlayer = function() {
