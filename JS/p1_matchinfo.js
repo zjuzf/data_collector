@@ -535,7 +535,7 @@ function changeFile() {
     console.log(file)
     let name_idx = file.lastIndexOf("\\")
     let name = file.substring(name_idx + 1)
-    let path = file.substring(0, name_idx)
+    let path = file.substring(0, name_idx).replace(/\\/g, '\\\\')
     data.matchinfo.video.path = path;
     data.matchinfo.video.name = name;
     document.getElementById("input_txt_fileName").value = file
