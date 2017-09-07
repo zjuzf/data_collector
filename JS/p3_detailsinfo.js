@@ -60,7 +60,7 @@ detailsinfo.prototype.popModal = function(coor) {
 }
 
 detailsinfo.prototype.dealTime = function () {
-    let time = $('#current').text()
+    let time = this.currentTime
     let min = (time / 60).toFixed(0)
     let sec = (time % 60).toFixed(1)
     return {min, sec}
@@ -346,8 +346,8 @@ function mouseCoords(ev) {
 }
 
 function onTrackedVideoFrame(currentTime, duration){
-    $("#current").text(currentTime.toFixed(1))
-    $("#duration").text(duration.toFixed(1))
+    p3.currentTime = currentTime.toFixed(1)
+    p3.duration = duration.toFixed(1)
 }
 
 function selectAction(idx) {
