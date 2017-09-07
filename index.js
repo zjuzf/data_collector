@@ -15,8 +15,7 @@ let mainWindow
 function createWindow () {
   // Create the browser window.
   createMenu()
-  mainWindow = new BrowserWindow({width: 800, height: 600})
-  mainWindow.maximize()
+  mainWindow = new BrowserWindow({fullscreen:true})
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
