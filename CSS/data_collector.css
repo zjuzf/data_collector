@@ -17,8 +17,6 @@
 }
 
 .video_box, .img_box{
-    margin-bottom: -100000px;
-    padding-bottom: 100000px;
     display: table-cell;
     vertical-align:middle;
 }
@@ -28,6 +26,8 @@
 }
 
 .img_box{
+    padding: 0;
+    cursor: pointer;
     float: right;
 }
 
@@ -95,4 +95,57 @@
 
 .actionText{
     display:inline
+}
+
+.mengban {
+    fill: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    height: 100%;
+    width: 100%;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.assist_line_shu, .assist_line_heng {
+    border-color: #333333;
+    border-width: 0;
+    border-style: dashed;
+    opacity: 0.7;
+
+    fill: none;
+}
+
+.assist_line_shu {
+    border-right-width: 1px;
+    text-align: right;
+    height: 100%;
+    width: 10%;
+    float:left;
+}
+
+.assist_line_heng {
+    padding: 0;
+    border-bottom-width: 1px;
+    width: 100%;
+    height: 10%;
+}
+.assist_line_heng .occupy{
+    fill: none;
+    height: 80%;
+}
+.assist_line_heng .left_text{
+    bottom: 0;
+    left: 5px;
+    font-size: 15px;
+}
+.assist_line_heng .right_text{
+    float:right;
+    bottom: 0;
+    text-align: right;
+    right: 5px;
+    font-size: 15px;
 }

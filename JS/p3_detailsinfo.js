@@ -10,7 +10,6 @@ detailsinfo = function(data) {
         this.saveAction()
         this.addDropDown()
         this.detailAction()
-        this.addLine()
         this.clickEvent()
         this.cleanUpEvent()
         this.disableButton()
@@ -29,7 +28,7 @@ detailsinfo.prototype.clickEvent = function() {
         }
     })
 
-    $("#field").on("click",()=>{
+    $("#virtual_field").on("click",()=>{
         this.actionsGroup.actionSelectedId = -1;
         let player = $("#videoplayer")[0]
         player.pause()
@@ -243,14 +242,6 @@ detailsinfo.prototype.disableButton = function() {
         $('#save-button').prop('disabled', true)
     else
         $('#save-button').prop('disabled', false)
-}
-
-detailsinfo.prototype.addLine = function() {
-    var line = "";
-    // line
-    var text = "";
-    document.getElementById("virtual_field").innerHTML += line;
-    document.getElementById("virtual_field").innerHTML += text;
 }
 
 phaseGroup = function() {
