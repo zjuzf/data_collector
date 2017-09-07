@@ -279,7 +279,9 @@ actionsGroup.prototype.refresh = function() {
     let phaseSelected = getLastNum(this.phaseGroup.phaseSelectedId)-1;
     let sequence = this.phaseGroup.sequences[phaseSelected];
 
-    if(sequence == undefined) return;
+    console.log(sequence);
+
+    if(sequence == undefined) sequence = new Sequence();
 
     refreshTitle();
     refreshContent();
@@ -307,43 +309,48 @@ actionsGroup.prototype.refresh = function() {
         $('#actions-group')[0].innerHTML += inner;
     }
     function refreshData() {
-        data.sequences.splice(phaseSelected,1,{
-            actions: new Array(),
-            time: {
-                start: {
-                    min:sequence.time.start.min,
-                    sec:sequence.time.start.sec
-                },
-                end: {
-                    min:sequence.time.end.min,
-                    sec:sequence.time.end.sec
-                }
-            }
-        });
-        for(var i = 0; i < sequence.actions.length; i++) {
-            data.sequences[phaseSelected].actions.push({
-                eid:sequence.actions[i].eid,
-                pid:sequence.actions[i].pid,
+        data.sequences.splice(0,data.sequences.length);
+        for(var k = 0; k < that.phaseGroup.sequences.length; k++)
+        {
+            data.sequences.push({
+                actions: new Array(),
                 time: {
-                    min:sequence.actions[i].time.min,
-                    sec:sequence.actions[i].time.sec
-                },
-                pos: {
-                    x:sequence.actions[i].x,
-                    y:sequence.actions[i].y
-                },
-                qualifiers: new Array()
+                    start: {
+                        min:that.phaseGroup.sequences[k].time.start.min,
+                        sec:that.phaseGroup.sequences[k].time.start.sec
+                    },
+                    end: {
+                        min:that.phaseGroup.sequences[k].time.end.min,
+                        sec:that.phaseGroup.sequences[k].time.end.sec
+                    }
+                }
             });
-            for(var j = 0; j < sequence.actions[i].qualifiers.length; j++)
-                data.sequences[phaseSelected].actions[i].qualifiers.push({
-                    qid:sequence.actions[i].qualifiers[j].qid,
-                    value:sequence.actions[i].qualifiers[j].value
-                })
+            for(var i = 0; i < that.phaseGroup.sequences[k].actions.length; i++) {
+                data.sequences[k].actions.push({
+                    eid:that.phaseGroup.sequences[k].actions[i].eid,
+                    pid:that.phaseGroup.sequences[k].actions[i].pid,
+                    time: {
+                        min:that.phaseGroup.sequences[k].actions[i].time.min,
+                        sec:that.phaseGroup.sequences[k].actions[i].time.sec
+                    },
+                    pos: {
+                        x:that.phaseGroup.sequences[k].actions[i].x,
+                        y:that.phaseGroup.sequences[k].actions[i].y
+                    },
+                    qualifiers: new Array()
+                });
+                for(var j = 0; j < that.phaseGroup.sequences[k].actions[i].qualifiers.length; j++)
+                    data.sequences[k].actions[i].qualifiers.push({
+                        qid:that.phaseGroup.sequences[k].actions[i].qualifiers[j].qid,
+                        value:that.phaseGroup.sequences[k].actions[i].qualifiers[j].value
+                    })
+            }
         }
     }
 };
 
 function getLastNum(str) {
+    if(str === "") return 0
     return str.match(/\d+$/)[0]
 }
 

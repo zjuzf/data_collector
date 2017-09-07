@@ -52,6 +52,7 @@ for(i = 0; i < data.players.team1.length; i++) {
     this.str += '　　]<br>';
     this.str += '},<br>';
     this.str += '"sequences":[<br>';
+    console.log(data.sequences);
 for(i = 0; i < data.sequences.length; i++) {
     this.str += '　　{<br>';
     this.str += '　　　　"actions":[<br>';
