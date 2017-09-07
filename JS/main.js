@@ -38,4 +38,5 @@ function main(error, jsondata)
     p2 = new playersinfo(jsondata);
     p3 = new detailsinfo(jsondata);
     p4 = new preview();
+    model();
 }
