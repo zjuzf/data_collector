@@ -276,12 +276,14 @@ actionsGroup = function(phaseGroup) {
 
 actionsGroup.prototype.refresh = function() {
     var that = this;
-    var phaseSelected = this.phaseGroup.phaseSelectedId.substring(5);
-    var sequence = this.phaseGroup.sequences[phaseSelected-1];
+    var phaseSelected = this.phaseGroup.phaseSelectedId.substring(5)-1;
+    var sequence = this.phaseGroup.sequences[phaseSelected];
     if(sequence == undefined) return;
 
     refreshTitle();
     refreshContent();
+    refreshData();
+    p4.refresh();
 
     function refreshTitle() {
         var duringTime = "";
@@ -302,6 +304,41 @@ actionsGroup.prototype.refresh = function() {
             inner += '</a>';
         }
         document.getElementById('actions-group').innerHTML += inner;
+    }
+    function refreshData() {
+        data.sequences.splice(phaseSelected,1,{
+            actions: new Array(),
+            time: {
+                start: {
+                    min:sequence.time.start.min,
+                    sec:sequence.time.start.sec
+                },
+                end: {
+                    min:sequence.time.end.min,
+                    sec:sequence.time.end.sec
+                }
+            }
+        });
+        for(var i = 0; i < sequence.actions.length; i++) {
+            data.sequences[phaseSelected].actions.push({
+                eid:sequence.actions[i].eid,
+                pid:sequence.actions[i].pid,
+                time: {
+                    min:sequence.actions[i].time.min,
+                    sec:sequence.actions[i].time.sec
+                },
+                pos: {
+                    x:sequence.actions[i].x,
+                    y:sequence.actions[i].y
+                },
+                qualifiers: new Array()
+            });
+            for(var j = 0; j < sequence.actions[i].qualifiers.length; j++)
+                data.sequences[phaseSelected].actions[i].qualifiers.push({
+                    qid:sequence.actions[i].qualifiers[j].qid,
+                    value:sequence.actions[i].qualifiers[j].value
+                })
+        }
     }
 };
 
