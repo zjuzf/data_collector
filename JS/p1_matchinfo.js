@@ -538,7 +538,7 @@ function changeFile() {
     let path = file.substring(0, name_idx).replace(/\\/g, '\\\\')
     data.matchinfo.video.path = path;
     data.matchinfo.video.name = name;
-    document.getElementById("input_txt_fileName").value = file
-    document.getElementById("videoplayer").src = file
+    $("#input_txt_fileName").val(file)
+    $("#videoplayer")[0].src = file
     p4.refresh();
 }
