@@ -13,6 +13,7 @@ detailsinfo = function(data) {
         this.clickEvent()
         this.cleanUpEvent()
         this.disableButton()
+        this.addLine()
     })
 
 }
@@ -239,6 +240,8 @@ detailsinfo.prototype.disableButton = function() {
     else
         $('#save-button').prop('disabled', false)
 }
+
+detailsinfo.prototype.
 
 phaseGroup = function() {
     this.phaseItem = `<a class="list-group-item"></a>`
