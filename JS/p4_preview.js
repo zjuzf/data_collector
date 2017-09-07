@@ -81,15 +81,13 @@ for(k = 0; k < data.sequences[i].actions[j].qualifiers.length; k++) {
     this.str += '<br>';
 }
     this.str += '　　　　],<br>';
-    this.str += '　　　　"time":{<br>';
-    this.str += '　　　　　　"start":{<br>';
-    this.str += '　　　　　　　　"min":"'+data.sequences[i].time.start.min+'",<br>';
-    this.str += '　　　　　　　　"sec":"'+data.sequences[i].time.start.sec+'"<br>';
-    this.str += '　　　　　　},<br>';
-    this.str += '　　　　　　"end":{<br>';
-    this.str += '　　　　　　　　"min":"'+data.sequences[i].time.start.min+'",<br>';
-    this.str += '　　　　　　　　"sec":"'+data.sequences[i].time.start.sec+'"<br>';
-    this.str += '　　　　　　}<br>';
+    this.str += '　　　　"startTime":{<br>';
+    this.str += '　　　　　　"min":"'+data.sequences[i].time.start.min+'",<br>';
+    this.str += '　　　　　　"sec":"'+data.sequences[i].time.start.sec+'"<br>';
+    this.str += '　　　　},<br>';
+    this.str += '　　　　"endTime":{<br>';
+    this.str += '　　　　　　"min":"'+data.sequences[i].time.start.min+'",<br>';
+    this.str += '　　　　　　"sec":"'+data.sequences[i].time.start.sec+'"<br>';
     this.str += '　　　　}<br>';
     this.str += '　　}';
     if(i != data.sequences.length-1) this.str += ',';

@@ -10,10 +10,10 @@ detailsinfo = function(data) {
         this.saveAction()
         this.addDropDown()
         this.detailAction()
+        this.addLine()
         this.clickEvent()
         this.cleanUpEvent()
         this.disableButton()
-        this.addLine()
     })
 
 }
@@ -35,7 +35,10 @@ detailsinfo.prototype.clickEvent = function() {
         player.pause()
         let coor = mouseMove(event)
         if(this.phaseGroup.phaseSelectedId !== "")
+        {
+            this.addQualifier()
             this.popModal(coor)
+        }
         else
             throwError(ERR_notSelectPhase)
     })
@@ -200,6 +203,7 @@ detailsinfo.prototype.addAction = function() {
 detailsinfo.prototype.addQualifier = function() {
     $('#dropdown-detail ul').children().remove()
 
+    console.log($('#dropdownMenu-action').text());
     this.data.qualifiers.forEach((qualifier, i)=>{
         switch(qualifier.code)
         {
@@ -207,17 +211,17 @@ detailsinfo.prototype.addQualifier = function() {
             case "Q_PASS_END_X": case "Q_PASS_END_Y": case "Q_PASS_CORNER": case "Q_PASS_CHIPPED": case "Q_PASS_ATTACKING":
             case "Q_PASS_THROW_IN": case "Q_PASS_LAY_OFF": case "Q_PASS_LAUNCH": case "Q_PASS_FLICK_ON": case "Q_PASS_PULL_BACK":
             case "Q_PASS_SWITCH_OF_PLAY":
-                if($('#dropdownMenu-action').val()==""||this.data.events[$('#dropdownMenu-action').val()].code == "E_PASS")
+                if($('#dropdownMenu-action').text()!="动作"&&$('#dropdownMenu-action').val()!=""&&this.data.events[$('#dropdownMenu-action').val()].code == "E_PASS")
                     $('#dropdown-detail ul')
                         .append(`<li id="detail-${i}"><a>${qualifier.name} ${qualifier.code}</a></li>`)
                 break
             case "Q_SHOT_GOAL_MOUTH_Y": case "Q_SHOT_GOAL_MOUTH_Z":
-                if($('#dropdownMenu-action').val()==""||this.data.events[$('#dropdownMenu-action').val()].code == "E_SHOT_GOAL")
+                if($('#dropdownMenu-action').text()!="动作"&&$('#dropdownMenu-action').val()!=""&&this.data.events[$('#dropdownMenu-action').val()].code.substring(0,6) == "E_SHOT")
                     $('#dropdown-detail ul')
                         .append(`<li id="detail-${i}"><a>${qualifier.name} ${qualifier.code}</a></li>`)
                 break
             case "Q_SHOT_BLOCKED_X": case "Q_SHOT_BLOCKED_Y":
-                if($('#dropdownMenu-action').val()==""||this.data.events[$('#dropdownMenu-action').val()].code == "E_SHOT_SAVED")
+                if($('#dropdownMenu-action').text()!="动作"&&$('#dropdownMenu-action').val()!=""&&this.data.events[$('#dropdownMenu-action').val()].code == "E_SHOT_SAVED")
                     $('#dropdown-detail ul')
                         .append(`<li id="detail-${i}"><a>${qualifier.name} ${qualifier.code}</a></li>`)
                 break
@@ -241,7 +245,13 @@ detailsinfo.prototype.disableButton = function() {
         $('#save-button').prop('disabled', false)
 }
 
-detailsinfo.prototype.
+detailsinfo.prototype.addLine = function() {
+    var line = "";
+    // line
+    var text = "";
+    document.getElementById("virtual_field").innerHTML += line;
+    document.getElementById("virtual_field").innerHTML += text;
+}
 
 phaseGroup = function() {
     this.phaseItem = `<a class="list-group-item"></a>`
