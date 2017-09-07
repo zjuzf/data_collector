@@ -140,7 +140,7 @@ function changeSF(team, i) {
     var sf_num = 0;
     for(var j = 0; j < players.length; j++)
         if(players[j].sf) sf_num++;
-    if(sf_num == 11) throwError(ERR_playersExtra);
+    if(sf_num == 11 && players[i].sf == 0) throwError(ERR_playersExtra);
     else
     {
         players[i].sf = 1-players[i].sf;

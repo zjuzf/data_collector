@@ -12,6 +12,7 @@ detailsinfo = function(data)
         this.updateDropdown("dropdown-detail")
         this.detailAction()
         this.clickEvent()
+        this.cleanUpEvent()
         this.disableButton()
     })
 
@@ -124,10 +125,28 @@ detailsinfo.prototype.getModalData = function () {
     let actionEid = this.data.events[$('#dropdownMenu-action').val()].eid
     let actionQualifiers = this.getQualifiers()
     let id = getLastChar(this.phaseGroup.phaseSelectedId)
+
     let selectSequence = this.phaseGroup.sequences[id - 1]
     selectSequence.actions.push(new Action(actionTime, actionX, actionY,
          actionPid, actionEid, actionQualifiers))
+
     $(`#${this.phaseGroup.phaseSelectedId} .badge`).text(selectSequence.actions.length)
+
+    selectSequence.actions.sort((a, b)=> {
+        return a.time.min === b.time.min ? a.time.sec - b.time.sec : a.time.min - b.time.min
+    })
+
+    selectSequence.time.start = selectSequence.actions[0].time
+    selectSequence.time.end = selectSequence.actions[selectSequence.actions.length - 1].time
+}
+
+detailsinfo.prototype.cleanUpEvent = function () {
+    $('#collector').on('hidden.bs.modal', ()=> {
+        $('#dropdownMenu-player').html(`球员<span class="caret"></span>`)
+        $('#dropdownMenu-action').html(`动作<span class="caret"></span>`)
+        $('#dropdownMenu-detail').html(`动作细节<span class="caret"></span>`)
+        $('#input-qvalue').val('')
+    })
 }
 
 detailsinfo.prototype.getQualifiers = function () {
@@ -149,7 +168,7 @@ detailsinfo.prototype.addDropDown = function()
         $('#dropdown-action ul')
             .append(`<li id="action-${i}"><a>${event.name} ${event.code}</a></li>`)
     })
-    this.data.events.forEach((qualifier, i)=>{
+    this.data.qualifiers.forEach((qualifier, i)=>{
         $('#dropdown-detail ul')
             .append(`<li id="detail-${i}"><a>${qualifier.name} ${qualifier.code}</a></li>`)
     })

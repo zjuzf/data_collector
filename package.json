@@ -1,13 +1,13 @@
 {
-  "name": "datacollect",
+  "name": "SoccerData",
   "version": "1.0.0",
   "description": "An application for data collecting for soccer stories",
   "main": "index.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "packager": "electron-packager . --platform=win32 --arch=x64 --electron-version=1.7.5 --overwrite --ignore=node_modules --ignore=.gitignore --ignore=Matches --ignore=数据.xlsx --asar=true"
   },
   "devDependencies": {
-    "electron": "~1.7.5",
-    "eslint-config-google": "^0.9.1"
+    "electron": "~1.7.5"
   }
 }
