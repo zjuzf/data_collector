@@ -4,7 +4,7 @@ preview = function() {
 };
 
 preview.prototype.refresh = function() {
-    var i;
+    var i, j, k;
 
     this.str = '';
     this.str += '{<br>';
@@ -52,6 +52,49 @@ for(i = 0; i < data.players.team1.length; i++) {
     this.str += '　　]<br>';
     this.str += '},<br>';
     this.str += '"sequences":[<br>';
+    console.log(data.sequences);
+for(i = 0; i < data.sequences.length; i++) {
+    this.str += '　　{<br>';
+    this.str += '　　　　"actions":[<br>';
+for(j = 0; j < data.sequences[i].actions.length; j++) {
+    this.str += '　　　　　　{<br>';
+    this.str += '　　　　　　　　"eid":"'+data.sequences[i].actions[j].eid+'",<br>';
+    this.str += '　　　　　　　　"pid":"'+data.sequences[i].actions[j].pid+'",<br>';
+    this.str += '　　　　　　　　"time":{<br>';
+    this.str += '　　　　　　　　　　"min":"'+data.sequences[i].actions[j].time.min+'",<br>';
+    this.str += '　　　　　　　　　　"sec":"'+data.sequences[i].actions[j].time.sec+'"<br>';
+    this.str += '　　　　　　　　"},<br>';
+    this.str += '　　　　　　　　"pos":{<br>';
+    this.str += '　　　　　　　　　　"x":"'+data.sequences[i].actions[j].pos.x+'",<br>';
+    this.str += '　　　　　　　　　　"y":"'+data.sequences[i].actions[j].pos.y+'"<br>';
+    this.str += '　　　　　　　　},<br>';
+    this.str += '　　　　　　　　"qualifiers":[<br>';
+for(k = 0; k < data.sequences[i].actions[j].qualifiers.length; k++) {
+    this.str += '　　　　　　　　　　{"qid":"'+data.sequences[i].actions[j].qualifiers[k].qid+'"<br>';
+    this.str += '　　　　　　　　　　"value":"'+data.sequences[i].actions[j].qualifiers[k].value+'"}';
+    if(k != data.sequences[i].actions[j].qualifiers.length-1) this.str += ',';
+    this.str += '<br>';
+}
+    this.str += '　　　　　　　　"]<br>';
+    this.str += '　　　　　　}';
+    if(j != data.sequences[i].actions.length-1) this.str += ',';
+    this.str += '<br>';
+}
+    this.str += '　　　　],<br>';
+    this.str += '　　　　"time":{<br>';
+    this.str += '　　　　　　"start":{<br>';
+    this.str += '　　　　　　　　"min":"'+data.sequences[i].time.start.min+'",<br>';
+    this.str += '　　　　　　　　"sec":"'+data.sequences[i].time.start.sec+'"<br>';
+    this.str += '　　　　　　},<br>';
+    this.str += '　　　　　　"end":{<br>';
+    this.str += '　　　　　　　　"min":"'+data.sequences[i].time.start.min+'",<br>';
+    this.str += '　　　　　　　　"sec":"'+data.sequences[i].time.start.sec+'"<br>';
+    this.str += '　　　　　　}<br>';
+    this.str += '　　　　}<br>';
+    this.str += '　　}';
+    if(i != data.sequences.length-1) this.str += ',';
+    this.str += '<br>';
+}
     this.str += ']<br>';
     this.str += '}<br>';
 
