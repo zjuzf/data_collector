@@ -79,7 +79,7 @@ detailsinfo.prototype.updateDropdown = function (id) {
     let newName = `#${id} ul li`
     $(newName).on("click", function () {
         let val = $(this).text()
-        let liId = parseInt(getLastChar($(this).attr("id")))
+        let liId = parseInt(getLastNum($(this).attr("id")))
         $(`#${id} button.dropdown-toggle`).text(`${val} `)
             .val(liId)
             .append(`<span class="caret"></span>`)
@@ -123,7 +123,7 @@ detailsinfo.prototype.getModalData = function () {
     let actionPid = data.players.team0[$('#dropdownMenu-player').val()].pid
     let actionEid = this.data.events[$('#dropdownMenu-action').val()].eid
     let actionQualifiers = this.getQualifiers()
-    let id = this.phaseGroup.phaseSelectedId.substring(5)
+    let id = getLastNum(this.phaseGroup.phaseSelectedId)
 
     let selectSequence = this.phaseGroup.sequences[id - 1]
 
@@ -229,7 +229,7 @@ phaseGroup.prototype.createPhase = function() {
         this.sequences.push(new Sequence())
 
         $('#phase-group a:nth-child(2) .closeListGroup').on("click", function(){
-            let id = parseInt(getLastChar($(this).parent().attr("id")))
+            let id = parseInt(getLastNum($(this).parent().attr("id")))
             that.sequences.splice(id - 1, 1)
 
             $(this).parent().remove()
@@ -275,24 +275,24 @@ actionsGroup = function(phaseGroup) {
 };
 
 actionsGroup.prototype.refresh = function() {
-    var that = this;
-    var phaseSelected = this.phaseGroup.phaseSelectedId.substring(5);
-    var sequence = this.phaseGroup.sequences[phaseSelected-1];
+    let that = this;
+    let phaseSelected = getLastNum(this.phaseGroup.phaseSelectedId);
+    let sequence = this.phaseGroup.sequences[phaseSelected-1];
     if(sequence == undefined) return;
 
     refreshTitle();
     refreshContent();
 
     function refreshTitle() {
-        var duringTime = "";
+        let duringTime = "";
         if(sequence.actions.length != 0)
             duringTime = "(" + sequence.time.start.min + ":" + sequence.time.start.sec + "~" +
                 sequence.time.end.min + ":" + sequence.time.end.sec + ")";
-        document.getElementById('actions-group').innerHTML = '<a class="list-group-item">动作列表'+duringTime+'</a>';
+        $('#actions-group')[0].innerHTML = '<a class="list-group-item">动作列表'+duringTime+'</a>';
     }
     function refreshContent() {
-        var inner = "";
-        for(var i = 0; i < sequence.actions.length; i++)
+        let inner = "";
+        for(let i = 0; i < sequence.actions.length; i++)
         {
             inner += '<a class="list-group-item" id="action'+(i+1)+'" onclick="selectAction('+i+')">';
             inner += '动作'+(i+1);
@@ -301,12 +301,12 @@ actionsGroup.prototype.refresh = function() {
             inner += '</button>';
             inner += '</a>';
         }
-        document.getElementById('actions-group').innerHTML += inner;
+        $('#actions-group')[0].innerHTML += inner;
     }
 };
 
-function getLastChar(str) {
-    return str.charAt(str.length - 1)
+function getLastNum(str) {
+    return str.match(/\d+$/)[0]
 }
 
 function getTop(e) {
@@ -357,10 +357,10 @@ function selectAction(idx) {
     }
 
     p3.actionsGroup.actionSelectedId = idx;
-    var phaseSelected = p3.phaseGroup.phaseSelectedId.substring(5);
-    var sequence = p3.phaseGroup.sequences[phaseSelected-1];
-    var action = sequence.actions[idx];
-    var i;
+    let phaseSelected = getLastNum(p3.phaseGroup.phaseSelectedId)
+    let sequence = p3.phaseGroup.sequences[phaseSelected-1];
+    let action = sequence.actions[idx];
+    let i;
 
     $('#collector').modal({backdrop: 'static', keyboard: false});
 
@@ -372,19 +372,19 @@ function selectAction(idx) {
 
     for(i=0;i<p3.data.players.length;i++)
         if(p3.data.players[i].pid == action.pid) break;
-    var player=p3.data.players[i];
+    let player=p3.data.players[i];
     $('#dropdownMenu-player').text(`名字:${player.name} 号码:${player.jersey} 位置:${player.position}`).append(`<span class="caret"></span>`);
 
     for(i=0;i<p3.data.events.length;i++)
         if(p3.data.events[i].eid == action.eid) break;
-    var event=p3.data.events[i];
+    let event=p3.data.events[i];
     $('#dropdownMenu-action').text(`${event.name} ${event.code}`).append(`<span class="caret"></span>`);
 
     $('#detailList').children().remove();
-    for(var j=0;j<action.qualifiers.length;j++) {
+    for(let j=0;j<action.qualifiers.length;j++) {
         for(i=0;i<p3.data.qualifiers.length;i++)
             if(p3.data.qualifiers[i].qid == action.qualifiers[j].qid) break;
-        var qualifier=p3.data.qualifiers[i];
+        let qualifier=p3.data.qualifiers[i];
         let qidStr = `${qualifier.name} ${qualifier.code}`;
         let qidValue = action.qualifiers[j].value;
 
@@ -406,8 +406,8 @@ function selectAction(idx) {
 function deleteAction(idx) {
     p3.actionsGroup.close = 1;
 
-    var phaseSelected = p3.phaseGroup.phaseSelectedId.substring(5);
-    var sequence = p3.phaseGroup.sequences[phaseSelected-1];
+    let phaseSelected = getLastNum(p3.phaseGroup.phaseSelectedId);
+    let sequence = p3.phaseGroup.sequences[phaseSelected-1];
 
     sequence.actions.splice(idx, 1);
     $(`#${p3.phaseGroup.phaseSelectedId} .badge`).text(sequence.actions.length);
