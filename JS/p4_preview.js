@@ -70,12 +70,12 @@ for(j = 0; j < data.sequences[i].actions.length; j++) {
     this.str += '　　　　　　　　},<br>';
     this.str += '　　　　　　　　"qualifiers":[<br>';
 for(k = 0; k < data.sequences[i].actions[j].qualifiers.length; k++) {
-    this.str += '　　　　　　　　　　{"qid":"'+data.sequences[i].actions[j].qualifiers[k].qid+'"<br>';
+    this.str += '　　　　　　　　　　{"qid":"'+data.sequences[i].actions[j].qualifiers[k].qid+'",<br>';
     this.str += '　　　　　　　　　　"value":"'+data.sequences[i].actions[j].qualifiers[k].value+'"}';
     if(k != data.sequences[i].actions[j].qualifiers.length-1) this.str += ',';
     this.str += '<br>';
 }
-    this.str += '　　　　　　　　"]<br>';
+    this.str += '　　　　　　　　]<br>';
     this.str += '　　　　　　}';
     if(j != data.sequences[i].actions.length-1) this.str += ',';
     this.str += '<br>';
