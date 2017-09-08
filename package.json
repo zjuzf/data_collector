@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "electron .",
-    "packager": "electron-packager . --platform=win32 --arch=x64 --electron-version=1.7.5 --overwrite --ignore=node_modules --ignore=.gitignore --ignore=Matches --ignore=数据.xlsx --asar=true"
+    "packager": "electron-packager . --platform=win32 --arch=x64 --electron-version=1.7.5 --overwrite --icon=SRC/img/soccer.ico --ignore=node_modules --ignore=.gitignore --ignore=Matches --ignore=数据.xlsx --ignore=README.md --ignore=picture --asar=true"
   },
   "devDependencies": {
     "electron": "~1.7.5"
