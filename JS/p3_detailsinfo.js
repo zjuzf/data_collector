@@ -131,7 +131,7 @@ detailsinfo.prototype.getModalData = function () {
     let id = getLastNum(this.phaseGroup.phaseSelectedId)
 
     let selectSequence = this.phaseGroup.sequences[id - 1]
-
+console.log((actionTime, actionX, actionY, actionPid, actionEid, actionQualifiers));
     if(this.actionsGroup.actionSelectedId != -1)
         selectSequence.actions.splice(this.actionsGroup.actionSelectedId,1,new Action(actionTime, actionX, actionY, actionPid, actionEid, actionQualifiers))
     else selectSequence.actions.push(new Action(actionTime, actionX, actionY, actionPid, actionEid, actionQualifiers))
