@@ -27,6 +27,50 @@ detailsinfo.prototype.clickEvent = function() {
             player.pause()
         }
     })
+    $("#videoplayer").on("click", ()=>{
+        let player = $("#videoplayer")[0]
+        if(player.paused){
+            player.play()
+        }
+        else{
+            player.pause()
+        }
+    })
+    document.onkeydown=function(e) {
+        let player = $("#videoplayer")[0]
+        e=e||event;
+        if(e.keyCode==32)
+        {
+            if(player.paused){
+                player.play()
+            }
+            else{
+                player.pause()
+            }
+        }
+        if(e.keyCode==39)
+        {
+                player.currentTime+=5;
+        }
+        if(e.keyCode==37)
+        {
+            player.currentTime-=5;
+        }
+        if(e.keyCode==38)
+        {
+            if(player.volume<=0.95)
+            player.volume+=0.05;
+            else
+                player.volume=1;
+        }
+        if(e.keyCode==40)
+        {
+            if(player.volume>=0.05)
+                player.volume-=0.05;
+            else
+                player.volume=0;
+        }
+    }
 
     $("#virtual_field").on("click",()=>{
         this.actionsGroup.actionSelectedId = -1;
