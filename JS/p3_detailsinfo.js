@@ -461,12 +461,12 @@ function selectAction(idx) {
     for(i=0;i<p3.data.players.length;i++)
         if(p3.data.players[i].pid == action.pid) break;
     let player=p3.data.players[i];
-    $('#dropdownMenu-player').text(`名字:${player.name} 号码:${player.jersey} 位置:${player.position}`).append(`<span class="caret"></span>`);
+    $('#dropdownMenu-player').val(i).text(`名字:${player.name} 号码:${player.jersey} 位置:${player.position}`).append(`<span class="caret"></span>`);
 
     for(i=0;i<p3.data.events.length;i++)
         if(p3.data.events[i].eid == action.eid) break;
     let event=p3.data.events[i];
-    $('#dropdownMenu-action').text(`${event.name} ${event.code}`).append(`<span class="caret"></span>`);
+    $('#dropdownMenu-action').val(i).text(`${event.name} ${event.code}`).append(`<span class="caret"></span>`);
 
     $('#detailList').children().remove();
     for(let j=0;j<action.qualifiers.length;j++) {
