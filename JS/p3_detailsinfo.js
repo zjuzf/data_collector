@@ -61,7 +61,7 @@ detailsinfo.prototype.popModal = function(coor) {
 
 detailsinfo.prototype.dealTime = function () {
     let time = this.currentTime
-    let min = (time / 60).toFixed(0)
+    let min = parseInt(time / 60)
     let sec = (time % 60).toFixed(1)
     return {min, sec}
 }
